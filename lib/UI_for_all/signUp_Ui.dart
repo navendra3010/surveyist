@@ -20,6 +20,7 @@ class _SignScreenForAllState extends State<SignUpScreenForAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:AppBar(title:Text("sigh_in"),),
         body: SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(10.0),

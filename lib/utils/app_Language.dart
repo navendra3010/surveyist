@@ -14,6 +14,8 @@ class Applanguage {
   static const fullNameText = ["Full Name"];
   static const enterFullNameText = ["Enter Full Name"];
   static const emailText = ["Email"];
+    static const validEmail = ["Email valid Email"];
+    static const NotValidEmail = ["Not valid Email"];
   static const entterEmailText = ["Enter Email"];
   static const messageText = ["Message"];
   static const createASurveyText = ["Create a Survey"];
@@ -51,6 +53,7 @@ class Applanguage {
   static const userNameMessage = ["Please enter username"];
   static const passwordNameessage = ["Please enter your password"];
   static const currentPasswordMsg = ["Please enter current password"];
+   static const passWordlength = ["password length should be more than 6 "];
   static const newPasswordMsg = ["Please enter new password"];
   static const confirmPasswordMsg = ["Please enter confirm password"];
   static const firstNameMessage = ["Please enter your first name"];

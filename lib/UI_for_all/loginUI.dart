@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:surveyist/UI_for_all/signUp_Ui.dart';
+import 'package:surveyist/users_UI/userDashboard.dart';
+
 import 'package:surveyist/utils/appButton.dart';
+import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appFont.dart';
 import 'package:surveyist/utils/appImage.dart';
+import 'package:surveyist/utils/appSnackBarOrToastMessage.dart';
 import 'package:surveyist/utils/app_Language.dart';
 
 class LoginScreenForAll extends StatefulWidget {
@@ -15,6 +19,38 @@ class LoginScreenForAll extends StatefulWidget {
 class _LoginScreenForAllState extends State<LoginScreenForAll> {
   TextEditingController userEmailController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
+
+  loginEmailWithPassword(userEmail, userPassword) {
+    int len = userPassword.length;
+    if (userEmail == "") {
+      ShowTaostMessage.toastMessage(
+          context, Applanguage.entterEmailText[Applanguage.language]);
+    } else if ((!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(userEmail))) {
+      ShowTaostMessage.toastMessage(
+          context, Applanguage.NotValidEmail[Applanguage.language]);
+    } else if (userPassword == "") {
+      ShowTaostMessage.toastMessage(
+          context, Applanguage.passwordNameessage[Applanguage.language]);
+    } else if (userPassword == "") {
+      ShowTaostMessage.toastMessage(
+          context, Applanguage.passwordNameessage[Applanguage.language]);
+    } else if (len < 6) {
+      ShowTaostMessage.toastMessage(
+          context, Applanguage.passWordlength[Applanguage.language]);
+    } else {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const UserDashBoardScreen()));
+      ShowTaostMessage.toastMessage(context, "SuccesfullLogin");
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    userEmailController.dispose();
+    userPasswordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,12 +123,16 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
                     text: 'Login',
                     color: const Color.fromARGB(255, 34, 137, 221),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const SignUpScreenForAll()));
-                                  print("helo");
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             const SignUpScreenForAll()));
+                      // ShowTaostMessage.toastMessage(context, "SuccesfullLogin");
+                      print("heloo");
+                      loginEmailWithPassword(
+                          userEmailController.text.toString().trim(),
+                          userPasswordController.text.toString().trim());
                     },
                   ),
                 ),
