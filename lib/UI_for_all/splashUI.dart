@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:surveyist/UI_for_all/loginUI.dart';
+import 'package:surveyist/admin_uI/adminDashboard.dart';
 import 'package:surveyist/users_UI/userDashboard.dart';
 import 'package:surveyist/utils/appImage.dart';
 import 'package:surveyist/utils/app_Language.dart';
@@ -18,7 +19,8 @@ class _SplashState extends State<Splash> {
     super. initState();
     Future.delayed(Duration(seconds:3),() => Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginScreenForAll())));
+        MaterialPageRoute(builder: (context) => const AdminDashboardPage())));
+        //LoginScreenForAll
   }
 
   @override
@@ -31,7 +33,8 @@ class _SplashState extends State<Splash> {
           child:Image.asset(Appimage.SplashScreen,fit:BoxFit.fill,),
           
         ),
-      )
+      ),
+
       
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:surveyist/UI_for_all/signUp_Ui.dart';
+import 'package:surveyist/admin_uI/adminDashboard.dart';
+import 'package:surveyist/managerUI/managerDashboard.dart';
 import 'package:surveyist/users_UI/userDashboard.dart';
 
 import 'package:surveyist/utils/appButton.dart';
@@ -38,9 +40,25 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
       ShowTaostMessage.toastMessage(
           context, Applanguage.passWordlength[Applanguage.language]);
     } else {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const UserDashBoardScreen()));
-      ShowTaostMessage.toastMessage(context, "SuccesfullLogin");
+      //there i will use firebase authication functionality.......................
+      if (userEmail == "admin1@gmail.com" && userPassword == "123456") {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AdminDashboardPage()));
+        ShowTaostMessage.toastMessage(context, "SuccesfullLogin");
+      } else if (userEmail == "manager1@gmail.com" &&
+          userPassword == "1234567") {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ManagerdashboardPage()));
+      } else if (userEmail == "user1@gmail.com" && userPassword == "12345678") {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const UserDashBoardScreen()));
+      }
     }
   }
 
@@ -116,7 +134,19 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 7 / 100,
+                  height: MediaQuery.of(context).size.height * 3 / 100,
+                ),
+                Row(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          print("this is forgor password scren will be ");
+                        },
+                        child: Text("Forgot_password")),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 2 / 100,
                 ),
                 Container(
                   child: MyButton(
