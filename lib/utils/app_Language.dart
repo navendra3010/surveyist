@@ -14,8 +14,8 @@ class Applanguage {
   static const fullNameText = ["Full Name"];
   static const enterFullNameText = ["Enter Full Name"];
   static const emailText = ["Email"];
-    static const validEmail = ["Email valid Email"];
-    static const NotValidEmail = ["Not valid Email"];
+  static const validEmail = ["Email valid Email"];
+  static const NotValidEmail = ["Not valid Email"];
   static const entterEmailText = ["Enter Email"];
   static const messageText = ["Message"];
   static const createASurveyText = ["Create a Survey"];
@@ -53,7 +53,7 @@ class Applanguage {
   static const userNameMessage = ["Please enter username"];
   static const passwordNameessage = ["Please enter your password"];
   static const currentPasswordMsg = ["Please enter current password"];
-   static const passWordlength = ["password length should be more than 6 "];
+  static const passWordlength = ["password length should be more than 6 "];
   static const newPasswordMsg = ["Please enter new password"];
   static const confirmPasswordMsg = ["Please enter confirm password"];
   static const firstNameMessage = ["Please enter your first name"];
@@ -205,6 +205,20 @@ class Applanguage {
   static const profilePhotoText = ["Profile Photo"];
   static const changeProfileText = ["Change Profile Picture"];
   //------------------------//-----------------//-----------------
-  static const signIn=["Sign_In"];
-    static const signUP=["Sign_Up"];
+  static const signIn = ["Sign_In"];
+  static const signUP = ["Sign_Up"];
+  //darte 23-12-2024 ----information for project related work
+  static const todayTask = [
+    "Measure the distance all the sides of jungle boot camp cover all area"
+  ];
+  static const todayTaskDate = ["12-12-2024"];
+  static const projectName = ["Metro_survey"];
+  static const projectlocation = ["Metro_survey"];
+  static const TaskLocation = ["Bhopal_Mp_Nagar"];
+  static const todayDescription = [
+    "Measure the distance all the sides of jungle boot camp cover all area measure all the distance create map according note distance convert in safe file as well and pdf formate "
+  ];
+    static const TaskDueDate = ["20-12-2024"];
+
+
 }

@@ -4,6 +4,7 @@ import 'package:surveyist/admin_uI/adminDashboard.dart';
 import 'package:surveyist/users_UI/userDashboard.dart';
 import 'package:surveyist/utils/appImage.dart';
 import 'package:surveyist/utils/app_Language.dart';
+import 'package:surveyist/utils/footerForUsers.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -19,8 +20,10 @@ class _SplashState extends State<Splash> {
     super. initState();
     Future.delayed(Duration(seconds:3),() => Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const AdminDashboardPage())));
+        MaterialPageRoute(builder: (context) => const LoginScreenForAll())));
         //LoginScreenForAll
+        // AdminDashboardPage
+        //  UserDashBoardScreen
   }
 
   @override
@@ -32,8 +35,10 @@ class _SplashState extends State<Splash> {
           width: MediaQuery.of(context).size.width*100/100,
           child:Image.asset(Appimage.SplashScreen,fit:BoxFit.fill,),
           
+          
         ),
       ),
+     
 
       
     );

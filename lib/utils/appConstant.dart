@@ -11,4 +11,7 @@ class AppConstantClass
 
 
 }
+//this menu for admin panel dashboard
 enum ButtomMenu {home,users,createProject,profile,}
+//this emuns function for userdashboard panel
+enum ButtomMenu2 {home,camera,submitTask,profile,}

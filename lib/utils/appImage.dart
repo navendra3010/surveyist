@@ -7,4 +7,5 @@ class Appimage {
    static const current = './assets/font/icon_current.png';
    static const threeDot ='./assets/font/icon_threedots.png';
    static const profileImage='./assets/font/profile_image.png';
+     static const star='./assets/font/icon_fillStar.png';
 }

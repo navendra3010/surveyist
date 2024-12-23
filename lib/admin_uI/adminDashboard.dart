@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:surveyist/admin_uI/viewAllUser.dart';
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appFooter.dart';
 
 class AdminDashboardPage extends StatelessWidget {
   const AdminDashboardPage({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +15,7 @@ class AdminDashboardPage extends StatelessWidget {
         child:Text("admin panel"),
       ),
       bottomNavigationBar:AppFooterUi(notificationCount: 0, selectMenu:ButtomMenu.home),
+
     );
   }
 }
