@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:surveyist/admin_uI/adminDashboard.dart';
+import 'package:surveyist/users_UI/userDashboard.dart';
 import 'package:surveyist/utils/appButton.dart';
 import 'package:surveyist/utils/appFont.dart';
 
@@ -57,13 +59,13 @@ class _TasksubmitPageState extends State<TasksubmitPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 3 / 100,
+                  height: MediaQuery.of(context).size.height * 2 / 100,
                 ),
                 Center(
                   child: Card(
                     color: Colors.black,
                     child: Text(
-                      "Create_New_project",
+                      "Submit_Task",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -95,7 +97,7 @@ class _TasksubmitPageState extends State<TasksubmitPage> {
                 Card(
                   color: const Color.fromARGB(255, 92, 92, 92),
                   child: Text(
-                    " Scope    ",
+                    "  final_Report  ",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -104,7 +106,7 @@ class _TasksubmitPageState extends State<TasksubmitPage> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                      hintText: "Scope_Of_Project.._name.",
+                      hintText: "Final_Report_Of_project.",
                       hintStyle:
                           TextStyle(fontSize: 12, fontFamily: AppFont.fontFamily),
                       border: OutlineInputBorder(
@@ -113,24 +115,7 @@ class _TasksubmitPageState extends State<TasksubmitPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.5 / 100,
                 ),
-                Card(
-                  color: const Color.fromARGB(255, 92, 92, 92),
-                  child: Text(
-                    " Location    ",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5 / 100,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                      hintText: "Scope_Of_Project.._name.",
-                      hintStyle:
-                          TextStyle(fontSize: 12, fontFamily: AppFont.fontFamily),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)))),
-                ),
+               
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.5 / 100,
                 ),
@@ -206,7 +191,7 @@ class _TasksubmitPageState extends State<TasksubmitPage> {
                 Card(
                   color: const Color.fromARGB(255, 92, 92, 92),
                   child: Text(
-                    "  project_end_Date    ",
+                    " Task_Submit_Date  ",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -273,10 +258,38 @@ class _TasksubmitPageState extends State<TasksubmitPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 1 / 100,
                 ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.5 / 100,
+                ),
+                Card(
+                  color: const Color.fromARGB(255, 92, 92, 92),
+                  child: Text(
+                    "  Other_Details  ",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.5 / 100,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: "Other_Detail__Of_project.",
+                      hintStyle:
+                          TextStyle(fontSize: 12, fontFamily: AppFont.fontFamily),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 3 / 100,
+                ),
                 Container(
                   child: MyButton(
-                      text: "submit", color: Colors.black, onPressed: () {}),
-                )
+                      text: "submit", color: Colors.black, onPressed: () 
+                      {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => UserDashBoardScreen()));
+                    
+                      }),
+                ),
               ],
             ),
           ),

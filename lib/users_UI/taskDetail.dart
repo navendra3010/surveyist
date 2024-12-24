@@ -33,22 +33,8 @@ class TaskDetails extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.5 / 100,
             ),
-
-            // Center(
-            //   child: Text(
-            //     Applanguage.todayTask[Applanguage.language],
-            //     maxLines: 2,
-            //     textAlign: TextAlign.center,
-            //     overflow: TextOverflow.clip,
-            //     style: TextStyle(
-            //       fontFamily: AppFont.fontFamily,
-            //       fontSize: 15,
-            //       color: const Color.fromARGB(255, 117, 119, 117),
-            //     ),
-            //   ),
-            // ),
             Container(
-              decoration: BoxDecoration(
+              decoration: BoxDecoration( 
                   color: const Color.fromARGB(255, 211, 204, 204),
                   border: Border.all(width: 0.5),
                   borderRadius: BorderRadius.all(Radius.circular(10))),

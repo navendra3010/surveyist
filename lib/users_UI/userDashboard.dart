@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:surveyist/users_UI/taskDetail.dart';
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appFont.dart';
-import 'package:surveyist/utils/appFooter.dart';
+
 import 'package:surveyist/utils/appImage.dart';
 import 'package:surveyist/utils/app_Language.dart';
 import 'package:surveyist/utils/footerForUsers.dart';
@@ -31,7 +31,7 @@ class UserDashBoardScreen extends StatelessWidget {
                     child: Image.asset(
                       Appimage.Notification,
                       fit: BoxFit.fill,
-                      cacheHeight: 40,
+                      cacheHeight: 25,
                     ),
                   ),
                 ],
@@ -77,7 +77,7 @@ class UserDashBoardScreen extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => TaskDetails()));
                         },
-                        child: Text("click_here"))
+                        child: Text("click_here")),
                   ],
                 ),
               ),
@@ -86,7 +86,7 @@ class UserDashBoardScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar:
-          footerUiForUsers(notificationCount: 0, selectMenu: ButtomMenu2.home),
+          footerUiForUsers(notificationCount: 0, selectMenu2: ButtomMenu2.userHome),
     );
   }
 }

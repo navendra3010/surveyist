@@ -3,15 +3,17 @@ import 'package:surveyist/admin_uI/adminDashboard.dart';
 import 'package:surveyist/admin_uI/adminProfile.dart';
 import 'package:surveyist/admin_uI/createProject.dart';
 import 'package:surveyist/admin_uI/viewAllUser.dart';
+import 'package:surveyist/users_UI/UserWorkHistory.dart';
 import 'package:surveyist/users_UI/userDashboard.dart';
+import 'package:surveyist/users_UI/usersProfile.dart';
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appImage.dart';
 
 class footerUiForUsers extends StatelessWidget {
   const footerUiForUsers(
-      {required this.notificationCount, required this.selectMenu, super.key});
+      {required this.notificationCount, required this.selectMenu2, super.key});
 
-  final ButtomMenu2 selectMenu;
+  final ButtomMenu2 selectMenu2;
   final int? notificationCount;
 
   @override
@@ -31,25 +33,25 @@ class footerUiForUsers extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              if (ButtomMenu2.home != selectMenu)
+              if (ButtomMenu2.userHome != selectMenu2)
 
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => UserDashBoardScreen()));
             },
-            child: Container(child: Icon(Icons.home,color:ButtomMenu.home!=selectMenu?Colors.black:Colors.grey)),
+            child: Container(child: Icon(Icons.home,color:ButtomMenu.home!=selectMenu2?Colors.black:Colors.grey)),
           ),
           InkWell(
             onTap: () {
-              // if (ButtomMenu2.camera!= selectMenu)
-                // Navigator.pushReplacement(context,
-                //     MaterialPageRoute(builder: (context) => viewAllUserpage()
+              if (ButtomMenu2. UserWorkHistory!= selectMenu2)
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => UserWorkHistory()
                     
-                //     )
-                //     );
+                    )
+                    );
             },
-            child: Container(child: Icon(Icons.person,color:ButtomMenu.users!=selectMenu?Colors.black:Colors.grey)),
+            child: Container(child: Icon(Icons.camera,color:ButtomMenu.users!=selectMenu2?Colors.black:Colors.grey)),
           ),
           InkWell(
             onTap: () {
@@ -59,17 +61,17 @@ class footerUiForUsers extends StatelessWidget {
                 //     MaterialPageRoute(
                 //         builder: (context) => CreateProjectPage()));
             },
-            child: Container(child: Icon(Icons.create,color:ButtomMenu.createProject!=selectMenu?Colors.black:Colors.grey)),
+            child: Container(child: Icon(Icons.create,color:ButtomMenu.createProject!=selectMenu2?Colors.black:Colors.grey)),
           ),
           InkWell(
             onTap: () {
-              // if (ButtomMenu2.profile != selectMenu)
-                // Navigator.pushReplacement(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => AdminProfilePage()));
+              if (ButtomMenu2.userprofile!= selectMenu2)
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UsersprofilePage()));
             },
-            child: Container(child: Icon(Icons.circle,color:ButtomMenu.profile!=selectMenu?Colors.black:Colors.grey)),
+            child: Container(child: Icon(Icons.person,color:ButtomMenu.profile!=selectMenu2?Colors.black:Colors.grey)),
           ),
         ],
       ),
