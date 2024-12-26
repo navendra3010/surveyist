@@ -4,7 +4,7 @@ import 'package:surveyist/admin_uI/adminProfile.dart';
 import 'package:surveyist/admin_uI/createProject.dart';
 import 'package:surveyist/admin_uI/viewAllUser.dart';
 import 'package:surveyist/utils/appConstant.dart';
-import 'package:surveyist/utils/appImage.dart';
+
 
 class AppFooterUi extends StatelessWidget {
   const AppFooterUi(
@@ -23,6 +23,7 @@ class AppFooterUi extends StatelessWidget {
          border:Border.all(width:1,color:Colors.grey),
          borderRadius:BorderRadius.circular(20),
         color:Colors.white
+       //  color: const Color.fromARGB(255, 228, 153, 41),
       ),
      // color: const Color.fromARGB(255, 78, 78, 80),
       child: Row(
