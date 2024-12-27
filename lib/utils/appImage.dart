@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:surveyist/UI_for_all/splashUI.dart';
+
 
 class Appimage {
   static const SplashScreen = './assets/font/splashImage.jpeg';
@@ -13,4 +12,5 @@ class Appimage {
       static const leave='./assets/font/leave_request.png';
        static const time='./assets/font/time.png';
         static const next_arrow='./assets/font/Icon_next.png';
+       
 }

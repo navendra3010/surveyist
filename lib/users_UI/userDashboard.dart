@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:surveyist/users_UI/taskDetail.dart';
+import 'package:surveyist/utils/TextSyle.dart';
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appFont.dart';
 
@@ -9,9 +10,14 @@ import 'package:surveyist/utils/appImage.dart';
 import 'package:surveyist/utils/app_Language.dart';
 import 'package:surveyist/utils/footerForUsers.dart';
 
-class UserDashBoardScreen extends StatelessWidget {
+class UserDashBoardScreen extends StatefulWidget {
   UserDashBoardScreen({super.key});
 
+  @override
+  State<UserDashBoardScreen> createState() => _UserDashBoardScreenState();
+}
+
+class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
   List<dynamic> taskList = <dynamic>[
     {
       "TaskName": "complete all measurment and submit distance with elecation",
@@ -60,7 +66,22 @@ class UserDashBoardScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0 / 100,
+              height: MediaQuery.of(context).size.height * 3 / 100,
+            ),
+            Container(
+              child: Row(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text("Login_Time", style: CustomText.nameOfTextStyle),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 5 / 100,
+                  ),
+                  Text("9.40", style: CustomText.nameOfTextStyle),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 3 / 100,
             ),
             Center(
               child: Container(
@@ -159,7 +180,11 @@ class UserDashBoardScreen extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetails(),));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TaskDetails(),
+                                ));
                           },
                           child: Container(
                             height:
@@ -402,94 +427,99 @@ class UserDashBoardScreen extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 6 / 100,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Container(
-                child: Text("Recent_leave_ Request",
-                    style: TextStyle(
-                        fontFamily: AppFont.fontFamily,
-                        fontSize: 18,
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w600)),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 2/ 100,
-            ),
-            Center(
-              child: Container(
-                height: MediaQuery.of(context).size.height *
-                    7 /
-                    100, // Height for each item
-                width: MediaQuery.of(context).size.width *
-                    95 /
-                    100, // Width for each item
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  color: const Color.fromARGB(255, 228, 153, 41),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  // crossAxisAlignment: CrossAxisAlignment.en,
-                  children: [
-                    Container(
-                      child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Casual",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            "12-12-2024",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            "1 Days leave",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Card(
-                            child: Text(
-                              "  processing......",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        InkWell(onTap: (){},
-                        child:Text("view", style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),),)
-                        ]
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 10),
+            //   child: Container(
+            //     child: Text("Recent_leave_ Request",
+            //         style: TextStyle(
+            //             fontFamily: AppFont.fontFamily,
+            //             fontSize: 18,
+            //             color: Colors.black87,
+            //             fontWeight: FontWeight.w600)),
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height * 2 / 100,
+            // ),
+            // Center(
+            //   child: Container(
+            //     height: MediaQuery.of(context).size.height *
+            //         7 /
+            //         100, // Height for each item
+            //     width: MediaQuery.of(context).size.width *
+            //         95 /
+            //         100, // Width for each item
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.all(Radius.circular(5)),
+            //       color: const Color.fromARGB(255, 228, 153, 41),
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       // crossAxisAlignment: CrossAxisAlignment.en,
+            //       children: [
+            //         Container(
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: [
+            //               Text(
+            //                 "Casual",
+            //                 style: TextStyle(
+            //                   fontSize: 12,
+            //                   fontWeight: FontWeight.w600,
+            //                   color: Colors.black,
+            //                 ),
+            //               ),
+            //               Text(
+            //                 "12-12-2024",
+            //                 style: TextStyle(
+            //                   fontSize: 12,
+            //                   fontWeight: FontWeight.w600,
+            //                   color: Colors.white,
+            //                 ),
+            //               ),
+            //               Text(
+            //                 "1 Days leave",
+            //                 style: TextStyle(
+            //                   fontSize: 12,
+            //                   fontWeight: FontWeight.w600,
+            //                   color: Colors.white,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         Container(
+            //           child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //               children: [
+            //                 Card(
+            //                   child: Text(
+            //                     "  processing......",
+            //                     style: TextStyle(
+            //                       fontSize: 12,
+            //                       fontWeight: FontWeight.w600,
+            //                       color: Colors.black,
+            //                     ),
+            //                   ),
+            //                 ),
+            //                 InkWell(
+            //                   onTap: () {},
+            //                   child: Text(
+            //                     "view",
+            //                     style: TextStyle(
+            //                       fontSize: 12,
+            //                       fontWeight: FontWeight.w600,
+            //                       color: Colors.white,
+            //                     ),
+            //                   ),
+            //                 )
+            //               ]),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

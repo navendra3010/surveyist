@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:surveyist/UI_for_all/splashUI.dart';
 import 'package:surveyist/utils/appFont.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+import 'firebase_options.dart';
+void main() async{
+
+
+ WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
+   
   runApp(const MyApp());
 }
 

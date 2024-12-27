@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:surveyist/UI_for_all/signUp_Ui.dart';
 import 'package:surveyist/admin_uI/adminDashboard.dart';
@@ -23,43 +24,49 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
   TextEditingController userPasswordController = TextEditingController();
 
   loginEmailWithPassword(userEmail, userPassword) {
-    int len = userPassword.length;
-    if (userEmail == "") {
-      ShowTaostMessage.toastMessage(
-          context, Applanguage.entterEmailText[Applanguage.language]);
-    } else if ((!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(userEmail))) {
-      ShowTaostMessage.toastMessage(
-          context, Applanguage.NotValidEmail[Applanguage.language]);
-    } else if (userPassword == "") {
-      ShowTaostMessage.toastMessage(
-          context, Applanguage.passwordNameessage[Applanguage.language]);
-    } else if (userPassword == "") {
-      ShowTaostMessage.toastMessage(
-          context, Applanguage.passwordNameessage[Applanguage.language]);
-    } else if (len < 6) {
-      ShowTaostMessage.toastMessage(
-          context, Applanguage.passWordlength[Applanguage.language]);
-    } else {
-      //there i will use firebase authication functionality.......................
-      if (userEmail == "admin1@gmail.com" && userPassword == "123456") {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const AdminDashboardPage()));
-        ShowTaostMessage.toastMessage(context, "SuccesfullLogin");
-      } else if (userEmail == "manager1@gmail.com" &&
-          userPassword == "1234567") {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const ManagerdashboardPage()));
-      } else if (userEmail == "user1@gmail.com" && userPassword == "12345678") {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>  UserDashBoardScreen()));
-      }
-    }
+    // int len = userPassword.length;
+    // if (userEmail == "") {
+    //   ShowTaostMessage.toastMessage(
+    //       context, Applanguage.entterEmailText[Applanguage.language]);
+    // } else if ((!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(userEmail))) {
+    //   ShowTaostMessage.toastMessage(
+    //       context, Applanguage.NotValidEmail[Applanguage.language]);
+    // } else if (userPassword == "") {
+    //   ShowTaostMessage.toastMessage(
+    //       context, Applanguage.passwordNameessage[Applanguage.language]);
+    // } else if (userPassword == "") {
+    //   ShowTaostMessage.toastMessage(
+    //       context, Applanguage.passwordNameessage[Applanguage.language]);
+    // } else if (len < 6) {
+    //   ShowTaostMessage.toastMessage(
+    //       context, Applanguage.passWordlength[Applanguage.language]);
+    // } else {
+    //   //there i will use firebase authication functionality.......................
+    //   if (userEmail == "admin1@gmail.com" && userPassword == "123456") {
+    //     Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) => const AdminDashboardPage()));
+    //     ShowTaostMessage.toastMessage(context, "SuccesfullLogin");
+    //   } else if (userEmail == "manager1@gmail.com" &&
+    //       userPassword == "1234567") {
+    //     Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) => const ManagerdashboardPage()));
+    //   } else if (userEmail == "user1@gmail.com" && userPassword == "12345678") {
+    //     Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) =>  UserDashBoardScreen()));
+    //   }
+    // }
+    Navigator.push(
+             context,
+             MaterialPageRoute(
+               builder: (context) =>  UserDashBoardScreen()));
+
+
   }
 
   @override
@@ -86,6 +93,7 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
                     width: MediaQuery.of(context).size.width * 50 / 100,
                     // child:Image.asset(Appimage.SplashScreen,fit: BoxFit.fill,),
                     decoration: BoxDecoration(
+                     // color: const Color.fromARGB(255, 228, 153, 41),
                         image: DecorationImage(
                             image: AssetImage(Appimage.SplashScreen),
                             fit: BoxFit.fill),
@@ -151,7 +159,8 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
                 Container(
                   child: MyButton(
                     text: 'Login',
-                    color: const Color.fromARGB(255, 34, 137, 221),
+                   // color: const Color.fromARGB(255, 34, 137, 221),
+                   color: const Color.fromARGB(255, 228, 153, 41),
                     onPressed: () {
                       // Navigator.push(
                       //     context,
