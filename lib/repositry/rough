@@ -412,3 +412,28 @@ Column(
                         ),
                       ],
                     ),
+                    -----------------------------------------------------
+                    28-12-2014
+                    Column(
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                const Text("you are not eligible"),
+                TextField(
+                  controller: agecontroller,
+                  decoration: const InputDecoration(
+                      hintText: "Enter age......",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
+            
+                ),
+                TextButton(onPressed: () {
+                  
+                  
+                }, child:Text("check",style:CustomText.nameOfTextStyle,))
+                
+              ],
+                
+            
+                );
