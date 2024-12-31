@@ -132,6 +132,7 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
                       Container(
                         child: TextField(
                           controller: userPasswordController,
+                         // keyboardType:,
                           decoration: InputDecoration(
                               hintText: "password",
 

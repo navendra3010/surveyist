@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:surveyist/localization/deviceInformation.dart';
 import 'package:surveyist/providers/eligible.dart';
 import 'package:surveyist/utils/TextSyle.dart';
 import 'package:surveyist/utils/appConstant.dart';
@@ -52,6 +53,11 @@ class _WorkProgessState extends State<WorkProgess> {
                       style: CustomText.nameOfTextStyle,
                     )),
                    // CircularProgressIndicator(),
+                   TextButton(onPressed: (){
+
+
+                   // DeviceInfo().LoginDeviceInfo();
+                   }, child:Text("Device info"),)
                     
                   
               ],

@@ -437,3 +437,8 @@ Column(
                 
             
                 );
+                --------------------------------------------------------------------------------------------------------------------
+                User-Specific Device Info: Store device info under the authenticated user’s document (/users/{uid}/device_info).
+Multiple Devices Per User: Store devices as subcollections (/users/{uid}/devices/{deviceId}).
+Tracking Multiple Logins: Use add() instead of set() to create a new entry every time (.collection('device_logs').add(deviceData)).
+---------------------------------------------------------------------------------------------------------------------------------

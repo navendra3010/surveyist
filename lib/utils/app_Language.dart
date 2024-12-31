@@ -219,6 +219,8 @@ class Applanguage {
     "Measure the distance all the sides of jungle boot camp cover all area measure all the distance create map according note distance convert in safe file as well and pdf formate "
   ];
     static const TaskDueDate = ["20-12-2024"];
+    //31-12-2025
+    static const nullMessage=["Email and password null"];
 
 
 }
