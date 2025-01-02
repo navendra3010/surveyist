@@ -13,6 +13,8 @@ import 'package:surveyist/utils/dateFormates.dart';
 
 class LoginProviderForUser extends ChangeNotifier {
   bool isloading = false;
+  String? brandName;
+  DeviceInfo? deviceInfo;
 
   Future<void> userLoginAuthantication(
       BuildContext context, email, String password) async {
@@ -42,14 +44,14 @@ class LoginProviderForUser extends ChangeNotifier {
         ShowTaostMessage.toastMessage(context, "Login successfully");
         isloading = true;
         notifyListeners();
-       
-         DateFormate.currentDateAndTime();
-        // DeviceInfo.LoginDeviceInfo();
-         // Map<String, dynamic> getDeviceData=DeviceInfo.loginDeviceInfo();
-           
-         //  DeviceInfo.loginDeviceInfo();
 
+        DateFormate.currentDateAndTime();
       
+        DeviceInfo deviceInfo = await DeviceInfo.loginDeviceInfo();
+        brandName = deviceInfo.brand;
+        notifyListeners();
+        print("the brand name is ${brandName}");
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => UserDashBoardScreen()),

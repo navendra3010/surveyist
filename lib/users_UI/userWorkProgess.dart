@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:surveyist/localization/deviceInformation.dart';
+
+import 'package:surveyist/localization/location.dart';
 import 'package:surveyist/providers/eligible.dart';
 import 'package:surveyist/utils/TextSyle.dart';
 import 'package:surveyist/utils/appConstant.dart';
@@ -16,6 +18,10 @@ class WorkProgess extends StatefulWidget {
 
 class _WorkProgessState extends State<WorkProgess> {
   TextEditingController agecontroller = TextEditingController();
+ 
+  Position?_currentPosition;
+   String? _currentAddress;
+ 
    void showLoader()
    {
     Loader();
@@ -35,6 +41,11 @@ class _WorkProgessState extends State<WorkProgess> {
                 const SizedBox(
                   height: 50,
                 ),
+                Text('LAT: ${_currentPosition?.latitude ?? ""}'),
+              Text('LNG: ${_currentPosition?.longitude ?? ""}'),
+              Text('ADDRESS: ${_currentAddress ?? ""}'),
+
+
                 Text("${provider.message}",style:TextStyle(color:(provider.isEligible==true)?Colors.green:Colors.red)),
                 TextField(
                   controller: agecontroller,
@@ -57,7 +68,34 @@ class _WorkProgessState extends State<WorkProgess> {
 
 
                    // DeviceInfo().LoginDeviceInfo();
-                   }, child:Text("Device info"),)
+                   }, child:Text("Device info"),),
+                  //  TextButton(onPressed: ()async{
+                  //   if(_currentPosition!=null)
+                  //   {
+                  //   _currentPosition = await Locations.getCurrentPosition();
+                  //  _currentAddress = await Locations.getAddressFromLatLng(_currentAddress);
+                  // setState(() {});
+
+                  //   }
+                        
+
+
+                   
+                  //  }, child:Text("Location"),),
+                 TextButton(
+  onPressed: () async {
+    _currentPosition = await Locations.getCurrentPosition();
+    if (_currentPosition != null) {
+      _currentAddress = await Locations.getAddressFromLatLng(_currentPosition!);
+      setState(() {});
+    } else {
+      print("Failed to get location.");
+    }
+  },
+  child: Text("Get Location"),
+),
+
+                   
                     
                   
               ],
