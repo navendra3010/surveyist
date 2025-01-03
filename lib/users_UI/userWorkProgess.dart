@@ -3,7 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 import 'package:surveyist/localization/location.dart';
-import 'package:surveyist/providers/eligible.dart';
+import 'package:surveyist/userProviders/eligible.dart';
 import 'package:surveyist/utils/TextSyle.dart';
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appLoader.dart';

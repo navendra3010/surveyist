@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:surveyist/UI_for_all/signUp_Ui.dart';
 import 'package:surveyist/admin_uI/adminDashboard.dart';
 import 'package:surveyist/managerUI/managerDashboard.dart';
-import 'package:surveyist/providers/loginProvider.dart';
+import 'package:surveyist/userProviders/loginProvider.dart';
 import 'package:surveyist/repositry/firebaseAuthentication.dart';
 import 'package:surveyist/users_UI/userDashboard.dart';
 

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surveyist/UI_for_all/loginUI.dart';
-import 'package:surveyist/providers/sighUpProvider.dart';
+import 'package:surveyist/userProviders/sighUpProvider.dart';
 import 'package:surveyist/utils/appButton.dart';
 import 'package:surveyist/utils/appFont.dart';
 import 'package:surveyist/utils/appImage.dart';
