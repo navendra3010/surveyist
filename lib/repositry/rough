@@ -442,3 +442,4 @@ Column(
 Multiple Devices Per User: Store devices as subcollections (/users/{uid}/devices/{deviceId}).
 Tracking Multiple Logins: Use add() instead of set() to create a new entry every time (.collection('device_logs').add(deviceData)).
 --------------------------------------------------------------------------------------------------------------------------------- 
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

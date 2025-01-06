@@ -5,7 +5,10 @@ import 'package:surveyist/utils/appFooter.dart';
 import 'package:surveyist/utils/appImage.dart';
 
 class AdminProfilePage extends StatelessWidget {
-  const AdminProfilePage({super.key});
+    const  AdminProfilePage({super.key});
+
+
+   
   void _showAlertDialog(BuildContext context, String name) {
     showDialog(
       context: context,

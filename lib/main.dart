@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+
+
+import 'package:provider/provider.dart';
 import 'package:surveyist/UI_for_all/splashUI.dart';
+import 'package:surveyist/adminProvider/adminHomeProvider.dart';
+import 'package:surveyist/userProviders/locationProvider.dart';
+import 'package:surveyist/userProviders/loginProvider.dart';
 import 'package:surveyist/utils/appFont.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -12,7 +19,17 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
 );
    
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(providers: [
+       //Provider(create: (context) =>(),),
+        ChangeNotifierProvider(create: (context) =>LoginProviderForUser()),
+         ChangeNotifierProvider(create: (context) =>LocationProviderr()),
+          ChangeNotifierProvider(create: (context) =>Adminhomeprovider())
+          
+
+    ],
+    child:MyApp(),)
+  );
 }
 
 class MyApp extends StatelessWidget {

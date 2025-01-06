@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surveyist/adminProvider/adminHomeProvider.dart';
+import 'package:surveyist/admin_uI/adminProfile.dart';
+import 'package:surveyist/admin_uI/usersDetails.dart';
 import 'package:surveyist/utils/TextSyle.dart';
 
 import 'package:surveyist/utils/appConstant.dart';
@@ -11,6 +14,7 @@ class AdminDashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final adminHomeProvider = Provider.of<Adminhomeprovider>(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -20,7 +24,7 @@ class AdminDashboardPage extends StatelessWidget {
             builder: (context, Provider, child) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment:CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 2 / 100,
@@ -39,8 +43,9 @@ class AdminDashboardPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            buildBoxContainer(context, "A"),
-                            buildBoxContainer(context, "B")
+                            buildBoxContainer(
+                                context, "A", ViewUserDetailsOnlyadmin()),
+                            buildBoxContainer(context, "B"),
                           ],
                         ),
                         SizedBox(
@@ -62,13 +67,26 @@ class AdminDashboardPage extends StatelessWidget {
                   ),
                   Container(
                     child: Text(
-                      "User_status",
+                      "All_Active users",
                       style: CustomText.nameOfTextStyle,
                     ),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 1 / 100,
                   ),
+                  // Expanded(child:Container(
+                  //   child: ListView.builder(
+                  //     itemCount: 2,
+                      
+                      
+                  //     itemBuilder: (context, index) {
+                    
+                  //     return Container(
+                  //       child:Text("helo"),
+                  //     );
+                  //   },),
+                  // )
+                  // ),
                 ],
               );
             },
@@ -80,18 +98,37 @@ class AdminDashboardPage extends StatelessWidget {
     );
   }
 
-  Widget buildBoxContainer(BuildContext context, text) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 7 / 100,
-      width: MediaQuery.of(context).size.width * 30 / 100,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: CustomText.nameOfTextStyle,
+  void navigateToScreen(BuildContext context, Widget? destination) {
+    if (destination != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => destination),
+      );
+    } else {
+      // Optional: Show a snackbar or log a message if no destination
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No destination set for this button.')),
+      );
+    }
+  }
+
+  Widget buildBoxContainer(BuildContext context, text, [Widget? designation]) {
+    return TextButton(
+      onPressed: () {
+        navigateToScreen(context, designation);
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 7 / 100,
+        width: MediaQuery.of(context).size.width * 30 / 100,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: CustomText.nameOfTextStyle,
+          ),
         ),
       ),
     );

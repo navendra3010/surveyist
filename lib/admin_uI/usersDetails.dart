@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:surveyist/utils/appFont.dart';
 import 'package:surveyist/utils/appImage.dart';
 
-class ViewUserDetailsOnlyadmin extends StatelessWidget {
+class ViewUserDetailsOnlyadmin extends StatefulWidget {
   const ViewUserDetailsOnlyadmin({super.key});
+
+  @override
+  State<ViewUserDetailsOnlyadmin> createState() => _ViewUserDetailsOnlyadminState();
+}
+
+class _ViewUserDetailsOnlyadminState extends State<ViewUserDetailsOnlyadmin> {
   void _showAlertDialog(BuildContext context, String name) {
     showDialog(
       context: context,
@@ -33,13 +39,20 @@ class ViewUserDetailsOnlyadmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      
+      appBar: AppBar(
+        
+      ),
       body: Padding(
         padding: EdgeInsets.all(8),
         child: Column(
           children: [
+           
             SizedBox(
               height: MediaQuery.of(context).size.height * 10 / 100,
+//               onPressed: () {
+//         Navigator.pop(context);
+// }
             ),
             Container(
               child: Row(
