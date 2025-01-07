@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:surveyist/admin_uI/adminDashboard.dart';
 import 'package:surveyist/users_UI/taskDetail.dart';
 import 'package:surveyist/utils/TextSyle.dart';
 import 'package:surveyist/utils/appConstant.dart';
@@ -520,6 +521,12 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
             //     ),
             //   ),
             // )
+           Center(
+          child:TextButton(onPressed: ()
+          {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AdminDashboardPage(),));
+          }, child:Text("go_admin_panel")),
+           ),
           ],
         ),
       ),

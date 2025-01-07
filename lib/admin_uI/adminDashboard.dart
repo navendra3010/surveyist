@@ -2,97 +2,125 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surveyist/adminProvider/adminHomeProvider.dart';
-import 'package:surveyist/admin_uI/adminProfile.dart';
+
 import 'package:surveyist/admin_uI/usersDetails.dart';
 import 'package:surveyist/utils/TextSyle.dart';
 
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appFooter.dart';
+import 'package:surveyist/utils/appSnackBarOrToastMessage.dart';
 
-class AdminDashboardPage extends StatelessWidget {
+class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
 
   @override
+  State<AdminDashboardPage> createState() => _AdminDashboardPageState();
+}
+
+class _AdminDashboardPageState extends State<AdminDashboardPage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<Adminhomeprovider>(context, listen: false).getAllUserIds();
+  }
+
+  @override
   Widget build(BuildContext context) {
-      final adminHomeProvider = Provider.of<Adminhomeprovider>(context);
+    final providerHome= Provider.of<Adminhomeprovider>(context);
+    //  var loginDocs=adminHomeProvider.todaysLogins;
+    var   user_iddoc=providerHome.userIdLists;
+
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: ChangeNotifierProvider<Adminhomeprovider>(
-          create: (context) => Adminhomeprovider(),
-          child: Consumer<Adminhomeprovider>(
-            builder: (context, Provider, child) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 2 / 100,
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 2 / 100,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 25 / 100,
+                  width: MediaQuery.of(context).size.width * 100 / 100,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 228, 153, 41),
+                      borderRadius: BorderRadius.all(Radius.circular(40))),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 3 / 100,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          buildBoxContainer(
+                              context, "A", ViewUserDetailsOnlyadmin()),
+                          buildBoxContainer(context, "B"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 3 / 100,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          buildBoxContainer(context, "C"),
+                          buildBoxContainer(context, "D")
+                        ],
+                      ),
+                    ],
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 25 / 100,
-                    width: MediaQuery.of(context).size.width * 100 / 100,
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 228, 153, 41),
-                        borderRadius: BorderRadius.all(Radius.circular(40))),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 3 / 100,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            buildBoxContainer(
-                                context, "A", ViewUserDetailsOnlyadmin()),
-                            buildBoxContainer(context, "B"),
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 3 / 100,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            buildBoxContainer(context, "C"),
-                            buildBoxContainer(context, "D")
-                          ],
-                        ),
-                      ],
-                    ),
+                ),
+                //decoration box container end here...................................................
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 1 / 100,
+                ),
+                Container(
+                  child: Text(
+                    "All_Active users",
+                    style: CustomText.nameOfTextStyle,
                   ),
-                  //decoration box container end here...................................................
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 1 / 100,
-                  ),
-                  Container(
-                    child: Text(
-                      "All_Active users",
-                      style: CustomText.nameOfTextStyle,
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 1 / 100,
-                  ),
-                  // Expanded(child:Container(
-                  //   child: ListView.builder(
-                  //     itemCount: 2,
-                      
-                      
-                  //     itemBuilder: (context, index) {
-                    
-                  //     return Container(
-                  //       child:Text("helo"),
-                  //     );
-                  //   },),
-                  // )
-                  // ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 1 / 100,
+                ),
+                //  adminHomeProvider.isLoginRecord?Center(
+                //   child: CircularProgressIndicator()):loginDocs.isEmpty?Center( child: Text("no_loign_today")):ListView.builder(
+                //     itemCount: loginDocs.length,
+
+                //     itemBuilder: (context, index) {
+                //       var login=loginDocs[index].data() as Map<String,dynamic>;
+
+                //     return Card(
+                //        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                //        child:ListTile(
+                //         title: Text("Time:${login['Login_time']??'N/A'}"),
+                //         subtitle:Text("Login device${login["model"]??"unknow"}"),
+                //        ),
+
+                //     );
+                //   },)
+                Expanded(child:Consumer<Adminhomeprovider>(builder:(context, value, child) {
+                  if(providerHome.isLoginRecord)
+                  {
+                    return Center(child: CircularProgressIndicator(),);
+                  }
+                  if(providerHome.userIdLists.isEmpty)
+                  {
+                    return Center(child:Text("no list found"),);
+                  }
+                  return ListView.builder(
+                    itemCount: user_iddoc.length,
+                    itemBuilder: (context, index) {
+                    return Container(
+                      child:Text(providerHome.userIdLists[index]),
+                    );
+                  },);
+                },) )
+
+
+              ])),
       bottomNavigationBar:
           AppFooterUi(notificationCount: 0, selectMenu: ButtomMenu.home),
     );
