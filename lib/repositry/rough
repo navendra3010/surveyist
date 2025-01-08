@@ -443,3 +443,49 @@ Multiple Devices Per User: Store devices as subcollections (/users/{uid}/devices
 Tracking Multiple Logins: Use add() instead of set() to create a new entry every time (.collection('device_logs').add(deviceData)).
 --------------------------------------------------------------------------------------------------------------------------------- 
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+-----------------------------------------------------
+await FirebaseauthenticationStatus.auth
+            .createUserWithEmailAndPassword(
+                email: userReg.email!, password: userReg.password!)
+            .then((value) async {
+          isloading = true;
+          notifyListeners();
+          ShowTaostMessage.toastMessage(context, "Succesfully Account created");
+
+          createdUserID = value.user!.uid;
+          print(
+              "after create user account thier current user id is ${createdUserID}");
+          //this code for fire store account
+          Future<bool> isStatus = userCreatedInFirestore(
+              createdUserID, userReg.email, userReg.password, userReg.role);
+          if (await isStatus) {
+            ShowTaostMessage.toastMessage(
+                context, "account created on firestore");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreenForAll()),
+            );
+          }
+        });
+      } on PlatformException catch (e) {
+        String message;
+
+        if (e.code == 'invalid-credential') {
+          message = 'Invalid credentials. Please check your details.';
+        } else {
+          message = 'Platform error. Please try again.';
+        }
+
+        isloading = false;
+        notifyListeners();
+        ShowTaostMessage.toastMessage(context, message);
+      } catch (e) {
+        print("Unknown error: $e");
+        isloading = false;
+        notifyListeners();
+        ShowTaostMessage.toastMessage(
+          context,
+          'An unexpected error occurred. Please try again.',
+        );
+      }
+    }

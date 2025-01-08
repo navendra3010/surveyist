@@ -11,16 +11,12 @@ import 'package:surveyist/controller/fireStoreCollection.dart';
 import 'package:surveyist/localization/deviceInformation.dart';
 import 'package:surveyist/localization/location.dart';
 import 'package:surveyist/repositry/firebaseAuthentication.dart';
-import 'package:surveyist/users_UI/userDashboard.dart';
+
 import 'package:surveyist/utils/appSnackBarOrToastMessage.dart';
 import 'package:surveyist/utils/app_Language.dart';
-import 'package:surveyist/utils/dateFormates.dart';
 import 'package:intl/intl.dart';
-import 'package:surveyist/localization/location.dart';
 
 class LoginProviderForUser extends ChangeNotifier {
-  
-
   bool isloading = false;
   String? id;
   String? device;
@@ -57,8 +53,14 @@ class LoginProviderForUser extends ChangeNotifier {
 
           //  print("user login id is ${userID}");
           //var userID=FirebaseauthenticationStatus.auth.currentUser!.uid;
-
-        });
+           String currentUserLoginId=FirebaseAuth.instance.currentUser!.uid;
+           adminRole(currentUserLoginId);
+          
+            
+        }
+        
+        
+        );
 
         if (FirebaseauthenticationStatus.auth != null) {
           Position? position = await _determinePosition(context);
@@ -78,14 +80,7 @@ class LoginProviderForUser extends ChangeNotifier {
               brand,
               board,
             );
-            //   FirebaseauthenticationStatus.auth.currentUser!.uid,
-
-            //   id,
-            //   device,
-            //   model,
-            //   brand,
-            //   board,
-            // );
+           
             isloading = false;
             notifyListeners();
             return FirebaseauthenticationStatus.auth;
@@ -279,6 +274,13 @@ class LoginProviderForUser extends ChangeNotifier {
   //   // print(uid);
   //   //print(uid);
   // }
+
+
+
+  Future<void>adminRole(String currentUserLoginId)async
+  {
+      
+  }
 }
 
 //n (PlatformException(ERROR_INVALID_CREDENTIAL, The supplied auth credential is incorrect, malformed or has expired.
