@@ -101,23 +101,24 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
                 //     );
                 //   },)
-                Expanded(child:Consumer<Adminhomeprovider>(builder:(context, value, child) {
-                  if(providerHome.isLoginRecord)
-                  {
-                    return Center(child: CircularProgressIndicator(),);
-                  }
-                  if(providerHome.userIdLists.isEmpty)
-                  {
-                    return Center(child:Text("no list found"),);
-                  }
-                  return ListView.builder(
-                    itemCount: user_iddoc.length,
-                    itemBuilder: (context, index) {
-                    return Container(
-                      child:Text(providerHome.userIdLists[index]),
-                    );
-                  },);
-                },) )
+                // Expanded(child:Consumer<Adminhomeprovider>(builder:(context, value, child) {
+                //   if(providerHome.isLoginRecord)
+                //   {
+                //     return Center(child: CircularProgressIndicator(),);
+                //   }
+                //   if(providerHome.userIdLists.isEmpty)
+                //   {
+                //     return Center(child:Text("no list found"),);
+                //   }
+                //   return ListView.builder(
+                //     itemCount: user_iddoc.length,
+                //     itemBuilder: (context, index) {
+                //     return Container(
+                //       child:Text(providerHome.userIdLists[index]),
+                //     );
+                //   },);
+                // },) )
+                TextButton(onPressed: providerHome.fatchAllUsers, child:Text("see users"))
 
 
               ])),

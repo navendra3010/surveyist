@@ -213,8 +213,27 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
                               // login(String email, String password, BuildContext context)async {
                               //  monitorLocationService(context);
 
-                              FirebaseAuth? user =
-                                  await loginProvider.userLoginAuthantication(
+                              // FirebaseAuth? user =
+                              //     await loginProvider.userLoginAuthantication(
+                              //         context,
+                              //         userEmailController.text
+                              //             .toString()
+                              //             .trim(),
+                              //         userPasswordController.text
+                              //           ..toString()
+                              //           ..trim());
+
+                              // if (user!=null) {
+                               
+
+                              //   Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             UserDashBoardScreen()),
+                              //   );
+                              // }
+                              loginProvider.login(
                                       context,
                                       userEmailController.text
                                           .toString()
@@ -223,16 +242,6 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
                                         ..toString()
                                         ..trim());
 
-                              if (user!=null) {
-                               
-
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          UserDashBoardScreen()),
-                                );
-                              }
                             }),
                       ),
                 SizedBox(

@@ -1,7 +1,10 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:surveyist/adminModel/allUsers.dart';
 import 'package:surveyist/repositry/firebaseAuthentication.dart';
 
 class Adminhomeprovider extends ChangeNotifier {
@@ -39,25 +42,37 @@ class Adminhomeprovider extends ChangeNotifier {
   }
 
   Future<void> getAllUserIds() async {
-    try{
-    
-    //QuerySnapshot snapshot =
-        //await FirebaseFirestore.instance.collection('User').get();
-   // List<String> user_id = snapshot.docs.map((doc) => doc.id).toList();
-   
-   // userIdLists =  snapshot.docs.map((doc) => doc.id).toList();
-  // var records=FirebaseauthenticationStatus.auth.Collection("User").doc(User.uid).get();
-  QuerySnapshot snapshot=(await FirebaseFirestore.instance.collection("XNPVu6oFQ4YNKexrjYkuVgFGlrw2").get()) as QuerySnapshot<Object?>;
-  userIdLists!=snapshot.docs.map((doc)=>doc.id).toList();
-    isLoginRecord=false;
-    notifyListeners();
+    try {
+      //QuerySnapshot snapshot =
+      //await FirebaseFirestore.instance.collection('User').get();
+      // List<String> user_id = snapshot.docs.map((doc) => doc.id).toList();
 
-    // for (var ides in user_id) {
-    //   print(ides);
-    //   notifyListeners();
-    // }
-  }catch(e){
-    print(e);
+      // userIdLists =  snapshot.docs.map((doc) => doc.id).toList();
+      // var records=FirebaseauthenticationStatus.auth.Collection("User").doc(User.uid).get();
+      QuerySnapshot snapshot = (await FirebaseFirestore.instance
+          .collection("XNPVu6oFQ4YNKexrjYkuVgFGlrw2")
+          .get()) as QuerySnapshot<Object?>;
+      userIdLists != snapshot.docs.map((doc) => doc.id).toList();
+      isLoginRecord = false;
+      notifyListeners();
+
+      // for (var ides in user_id) {
+      //   print(ides);
+      //   notifyListeners();
+      // }
+    } catch (e) {
+      print(e);
+    }
   }
-}
+
+  //view all users...................
+  Stream<List<Map<String,dynamic>>> fatchAllUsers()  {
+    CollectionReference cf=FirebaseFirestore.instance.collection('users');
+    return cf.snapshots().map((snapshot){
+      return snapshot.docs.map((doc){
+        return doc.data() as Map<String,dynamic>;
+      }).toList();
+    });
+   
+  }
 }

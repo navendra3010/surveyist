@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:surveyist/UI_for_all/loginUI.dart';
-import 'package:surveyist/model/userRegistrationModel.dart';
+import 'package:surveyist/userModel/userRegistrationModel.dart';
 import 'package:surveyist/repositry/firebaseAuthentication.dart';
 import 'package:surveyist/utils/appSnackBarOrToastMessage.dart';
 import 'package:surveyist/utils/app_Language.dart';

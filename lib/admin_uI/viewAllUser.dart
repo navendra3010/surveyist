@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:surveyist/adminProvider/adminHomeProvider.dart';
 import 'package:surveyist/admin_uI/usersDetails.dart';
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appFont.dart';
 import 'package:surveyist/utils/appFooter.dart';
 import 'package:surveyist/utils/appImage.dart';
 
-class viewAllUserpage extends StatelessWidget {
+class viewAllUserpage extends StatefulWidget {
   viewAllUserpage({super.key});
+
+  @override
+  State<viewAllUserpage> createState() => _viewAllUserpageState();
+}
+
+class _viewAllUserpageState extends State<viewAllUserpage> {
   var usersName = [
     "sse1@gmail.com",
     "sse2@gmail.com",
@@ -36,45 +44,59 @@ class viewAllUserpage extends StatelessWidget {
     "sse8@gmail.com",
     "sse9@gmail.com",
   ];
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<Adminhomeprovider>(context, listen: false).fatchAllUsers();
+  }
+
   void _showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("users Managment"),
-          content: Text('This is the alert content.'),
-          actions: <Widget>[
-            Container(
-              child:Row( 
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Card(
-                    color:Colors.black,
-                    child:Text("Delete_user",style:TextStyle(color:Colors.white,fontWeight:FontWeight.w600),),
-                  ),
-                   GestureDetector(onTap:() {
-                    
-                     Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ViewUserDetailsOnlyadmin()));
-                   },
-                     child: Card(
-                      color:Colors.black,
-                      child:Text("User_Details",style:TextStyle(color:Colors.white,fontWeight:FontWeight.w600)),
-                                       ),
-                   ),
-                ],
-              ),
-            )
-          ]
-        );
+            title: Text("users Managment"),
+            content: Text('This is the alert content.'),
+            actions: <Widget>[
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Card(
+                      color: Colors.black,
+                      child: Text(
+                        "Delete_user",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ViewUserDetailsOnlyadmin()));
+                      },
+                      child: Card(
+                        color: Colors.black,
+                        child: Text("User_Details",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ]);
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final providerAll = Provider.of<Adminhomeprovider>(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(5.0),
@@ -114,40 +136,48 @@ class viewAllUserpage extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 2 / 100,
             ),
-            Expanded(
-              child: Container(
-                  child: ListView.builder(
-                itemCount: usersName.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height * 7 / 100,
-                    width: MediaQuery.of(context).size.width * 9 / 100,
-                    child: Card(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Text(usersName[index]),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            print("hello users");
-                            _showAlertDialog(context);
-                          },
-                          child: Container(
-                            child: Image.asset(
-                              Appimage.threeDot,
-                              fit: BoxFit.fill,
-                              cacheHeight: 25,
+            StreamBuilder<List<Map<String, dynamic>>>(
+                stream: providerAll.fatchAllUsers(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text("no user Found"),
+                    );
+                  }
+                  var users = snapshot.data!;
+
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: users.length,
+                      itemBuilder: (context, index) {
+                        final user = users[index];
+                        return Container(
+                          height: MediaQuery.of(context).size.height * 15 / 100,
+                          width: MediaQuery.of(context).size.width * 9 / 100,
+                          child: Card(
+                            child: Column(
+                              children: [
+                                Text("user_Email:-${user['email'] ?? 'no name'}"),
+                                Text("user_role:-${user['role'] ?? 'no name'}"),
+                               // Text("${user['created_at'] ?? 'no name'}"),
+                                Text("password:-${user['password'] ?? 'no name'}"),
+                                Text("user-Id: ${user['singupId'] ?? 'no name'}"),
+
+
+                                
+                              ],
                             ),
                           ),
-                        ),
-                      ],
-                    )),
+                        );
+                      },
+                    ),
                   );
-                },
-              )),
-            ),
+                }),
           ],
         ),
       ),
