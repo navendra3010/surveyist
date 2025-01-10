@@ -47,7 +47,9 @@ class _viewAllUserpageState extends State<viewAllUserpage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<Adminhomeprovider>(context, listen: false).fatchAllUsers();
+    // getAlldocumentFromCollection
+    Provider.of<Adminhomeprovider>(context, listen: false).getAllUsers();
+    Provider.of<Adminhomeprovider>(context, listen: false).getAlldocumentFromCollection();
   }
 
   void _showAlertDialog(BuildContext context) {
@@ -136,8 +138,10 @@ class _viewAllUserpageState extends State<viewAllUserpage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 2 / 100,
             ),
-            StreamBuilder<List<Map<String, dynamic>>>(
-                stream: providerAll.fatchAllUsers(),
+            FutureBuilder(
+                //stream: providerAll.fatchAllUsers(),
+                future: providerAll.getAllUsers(),
+               // future: providerAll.getAlldocumentFromCollection(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -149,8 +153,8 @@ class _viewAllUserpageState extends State<viewAllUserpage> {
                       child: Text("no user Found"),
                     );
                   }
-                  var users = snapshot.data!;
-
+                  var users = providerAll.alluserList;
+ 
                   return Expanded(
                     child: ListView.builder(
                       itemCount: users.length,
@@ -162,11 +166,12 @@ class _viewAllUserpageState extends State<viewAllUserpage> {
                           child: Card(
                             child: Column(
                               children: [
-                                Text("user_Email:-${user['email'] ?? 'no name'}"),
-                                Text("user_role:-${user['role'] ?? 'no name'}"),
+                                Text("user_Email:-${user.email ?? 'no name'}"),
+                                Text("user_role:-${user.role ?? 'no name'}"),
                                // Text("${user['created_at'] ?? 'no name'}"),
-                                Text("password:-${user['password'] ?? 'no name'}"),
-                                Text("user-Id: ${user['singupId'] ?? 'no name'}"),
+                                Text("password:-${user.password?? 'no name'}"),
+                                Text("user-Id: ${user.id ?? 'no name'}"),
+                                 // Text("user_Email:-${user?? 'no name'}"),
 
 
                                 

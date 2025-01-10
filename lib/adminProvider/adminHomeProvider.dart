@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:surveyist/adminModel/allUsers.dart';
+import 'package:surveyist/adminModel/allUsersModel.dart';
 import 'package:surveyist/repositry/firebaseAuthentication.dart';
 
 class Adminhomeprovider extends ChangeNotifier {
@@ -66,13 +66,52 @@ class Adminhomeprovider extends ChangeNotifier {
   }
 
   //view all users...................
-  Stream<List<Map<String,dynamic>>> fatchAllUsers()  {
-    CollectionReference cf=FirebaseFirestore.instance.collection('users');
-    return cf.snapshots().map((snapshot){
-      return snapshot.docs.map((doc){
-        return doc.data() as Map<String,dynamic>;
-      }).toList();
-    });
-   
+  // Stream<List<Map<String, dynamic>>> fatchAllUsers() {
+  //   CollectionReference cf = FirebaseFirestore.instance.collection('users');
+  //   return cf.snapshots().map((snapshot) {
+  //     return snapshot.docs.map((doc) {
+  //       return doc.data() as Map<String, dynamic>;
+  //     }).toList();
+  //   });
+  // }
+
+  List alluserList = [];
+  bool isFatchDone = false;
+//all register users........................
+  Future<List<ViewAllUsers>> getAllUsers() async {
+    final snapshot = await FirebaseFirestore.instance.collection('users').get();
+    final userdata =
+        snapshot.docs.map((e) => ViewAllUsers.Fromjson(e)).toList();
+    alluserList = userdata;
+
+    return userdata;
+  }
+ List docList=[];
+  Future<void> getAlldocumentFromCollection()async
+  {
+   List allDocs=[];
+   List allDocs2=[];
+  QuerySnapshot snapshot= await  FirebaseFirestore.instance.collection('users').get();
+  //parse document from fire collection to list
+  allDocs=snapshot.docs;
+  for (var elment in allDocs) {
+    //var data=allDocs.data();
+   String getid=elment.id;
+   print("find is${getid}");
+   // QuerySnapshot snapshot2= await  FirebaseFirestore.instance.collection('elment.id').get();
+    final  snapshot2= await  FirebaseFirestore.instance.collection(getid);
+    // allDocs2=snapshot2.get() as List;
+    // for(var element2 in allDocs2)
+    // {
+    //   String getId2=element2.id;
+    //   print("find it 2 is------${getId2}");
+    // }
+
+    
+    
+  }
+  docList=allDocs;
+  notifyListeners();
+ 
   }
 }

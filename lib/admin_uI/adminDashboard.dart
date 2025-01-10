@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surveyist/adminProvider/adminHomeProvider.dart';
+import 'package:surveyist/adminProvider/adminoperationProvider.dart';
 
 import 'package:surveyist/admin_uI/usersDetails.dart';
 import 'package:surveyist/utils/TextSyle.dart';
@@ -21,12 +22,13 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<Adminhomeprovider>(context, listen: false).getAllUserIds();
+   // Provider.of<AllOpeationAndUpdate>(context, listen: false).fetchAllLoginRecords();
   }
 
   @override
   Widget build(BuildContext context) {
     final providerHome= Provider.of<Adminhomeprovider>(context);
+     final loginUpdateProvider= Provider.of<AllOpeationAndUpdate>(context,listen: false);
     //  var loginDocs=adminHomeProvider.todaysLogins;
     var   user_iddoc=providerHome.userIdLists;
 
@@ -85,41 +87,63 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 1 / 100,
                 ),
-                //  adminHomeProvider.isLoginRecord?Center(
-                //   child: CircularProgressIndicator()):loginDocs.isEmpty?Center( child: Text("no_loign_today")):ListView.builder(
-                //     itemCount: loginDocs.length,
-
-                //     itemBuilder: (context, index) {
-                //       var login=loginDocs[index].data() as Map<String,dynamic>;
-
-                //     return Card(
-                //        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                //        child:ListTile(
-                //         title: Text("Time:${login['Login_time']??'N/A'}"),
-                //         subtitle:Text("Login device${login["model"]??"unknow"}"),
-                //        ),
-
+                // FutureBuilder(future:loginUpdateProvider.fetchAllLoginRecords(),
+                
+                //  builder: (context, snapshot) {
+                //   if (snapshot.connectionState == ConnectionState.waiting) {
+                //     return Center(
+                //       child: CircularProgressIndicator(),
                 //     );
-                //   },)
-                // Expanded(child:Consumer<Adminhomeprovider>(builder:(context, value, child) {
-                //   if(providerHome.isLoginRecord)
-                //   {
-                //     return Center(child: CircularProgressIndicator(),);
                 //   }
-                //   if(providerHome.userIdLists.isEmpty)
-                //   {
-                //     return Center(child:Text("no list found"),);
-                //   }
-                //   return ListView.builder(
-                //     itemCount: user_iddoc.length,
-                //     itemBuilder: (context, index) {
-                //     return Container(
-                //       child:Text(providerHome.userIdLists[index]),
+                //   if (snapshot.hasError) {
+                //     return Center(
+                //       child: Text("no login record"),
                 //     );
-                //   },);
-                // },) )
-                TextButton(onPressed: providerHome.fatchAllUsers, child:Text("see users"))
+                //   }
+                //    final record = loginUpdateProvider;
+                //    if(record.isEmpty)
+                //    {
+                //     return Center(child:Text("no login found yet"),);
+                //    }
+                //   return Expanded(
+                //     child: ListView.builder(
+                //       itemCount: record.length,
+                //       itemBuilder: (context, index) {
+                //         final us = record[index];
+                //         return Container(
+                //           height: MediaQuery.of(context).size.height * 15 / 100,
+                //           width: MediaQuery.of(context).size.width * 9 / 100,
+                //           child: Card(
+                //             child: Column(
+                //               children: [
+                //                 Text("user_Login_Date:-${us.loginDate ?? 'no name'}"),
+                //                 Text("user_Time:-${us.loginTime ?? 'no name'}"),
+                //                // Text("${user['created_at'] ?? 'no name'}"),
+                //                 Text("user_address:-${us.address?? 'no name'}"),
+                //                 Text("user_: ${us.latitude ?? 'no name'}"),
+                //                   Text("user_: ${us.longitude ?? 'no name'}"),
+                //                     Text("user_: ${us.model?? 'no name'}"),
+                //                       Text("user_: ${us.deviceBrand ?? 'no name'}"),
+                //                        Text("user_: ${us.board?? 'no name'}"),
+                //                         Text("user_: ${us. device?? 'no name'}"),
+                //                          Text("user_: ${us.deviceId ?? 'no name'}"),
+                            
 
+
+                                
+                //               ],
+                //             ),
+                //           ),
+                //         );
+                //       },
+                //     ),
+                //     );
+                    
+                
+                // },
+                //)
+               
+        
 
               ])),
       bottomNavigationBar:
