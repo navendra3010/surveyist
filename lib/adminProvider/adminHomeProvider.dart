@@ -1,11 +1,9 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:surveyist/adminModel/allUsersModel.dart';
-import 'package:surveyist/repositry/firebaseAuthentication.dart';
+import 'package:surveyist/adminModel/loginRecordmodel.dart';
 
 class Adminhomeprovider extends ChangeNotifier {
   bool isLoginRecord = false;
@@ -41,40 +39,6 @@ class Adminhomeprovider extends ChangeNotifier {
     return '${date.hour}:${date.minute} - ${date.day}/${date.month}/${date.year}';
   }
 
-  Future<void> getAllUserIds() async {
-    try {
-      //QuerySnapshot snapshot =
-      //await FirebaseFirestore.instance.collection('User').get();
-      // List<String> user_id = snapshot.docs.map((doc) => doc.id).toList();
-
-      // userIdLists =  snapshot.docs.map((doc) => doc.id).toList();
-      // var records=FirebaseauthenticationStatus.auth.Collection("User").doc(User.uid).get();
-      QuerySnapshot snapshot = (await FirebaseFirestore.instance
-          .collection("XNPVu6oFQ4YNKexrjYkuVgFGlrw2")
-          .get()) as QuerySnapshot<Object?>;
-      userIdLists != snapshot.docs.map((doc) => doc.id).toList();
-      isLoginRecord = false;
-      notifyListeners();
-
-      // for (var ides in user_id) {
-      //   print(ides);
-      //   notifyListeners();
-      // }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  //view all users...................
-  // Stream<List<Map<String, dynamic>>> fatchAllUsers() {
-  //   CollectionReference cf = FirebaseFirestore.instance.collection('users');
-  //   return cf.snapshots().map((snapshot) {
-  //     return snapshot.docs.map((doc) {
-  //       return doc.data() as Map<String, dynamic>;
-  //     }).toList();
-  //   });
-  // }
-
   List alluserList = [];
   bool isFatchDone = false;
 //all register users........................
@@ -86,32 +50,56 @@ class Adminhomeprovider extends ChangeNotifier {
 
     return userdata;
   }
- List docList=[];
-  Future<void> getAlldocumentFromCollection()async
-  {
-   List allDocs=[];
-   List allDocs2=[];
-  QuerySnapshot snapshot= await  FirebaseFirestore.instance.collection('users').get();
-  //parse document from fire collection to list
-  allDocs=snapshot.docs;
-  for (var elment in allDocs) {
-    //var data=allDocs.data();
-   String getid=elment.id;
-   print("find is${getid}");
-   // QuerySnapshot snapshot2= await  FirebaseFirestore.instance.collection('elment.id').get();
-    final  snapshot2= await  FirebaseFirestore.instance.collection(getid);
-    // allDocs2=snapshot2.get() as List;
-    // for(var element2 in allDocs2)
-    // {
-    //   String getId2=element2.id;
-    //   print("find it 2 is------${getId2}");
-    // }
 
-    
-    
-  }
-  docList=allDocs;
-  notifyListeners();
  
+List loginRecordList=[];
+
+  Future<void> fetchAllLoginDetails() async {
+    try {
+      print("-----------\\===========================");
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('usersloginRecords')
+          .get();
+      for (var element in snapshot.docs) {
+        //  var userData = element.data();
+        //  print(userData);
+        var usergetid = element.id;
+        print(usergetid);
+        QuerySnapshot<Map<String, dynamic>> loginsSnapshot =
+            await FirebaseFirestore.instance
+                .collection('usersloginRecords')
+                .doc(usergetid)
+                .collection('loginDates')
+                .doc("13-01-2025")
+                .collection('logins')
+                .get();
+                
+                // final loginData=loginsSnapshot.docs.map((e)=>LoginRecord.fromFireStore(e)).toList();
+                // LoginRecordList=loginData;
+  List<LoginRecord> loginData = loginsSnapshot.docs
+          .map((e) => LoginRecord.fromFireStore(e))
+          .toList();
+
+      loginRecordList.addAll(loginData); 
+      int listlen=loginData.length;
+      
+
+        // Check if there are any records
+        if (loginsSnapshot.docs.isEmpty) {
+          // print("No login records found for userId: $userId on date: $date");
+        } else {
+          // print("Login details for userId: $userId on date: $date:");
+
+          // Iterate through each document and print details
+          for (var doc in loginsSnapshot.docs) {
+            print("Login ID: ${doc.id}");
+            print("Data: device id ${doc.data()["device_Id"]}");
+          }
+        }
+        print("hello------hello-----------");
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

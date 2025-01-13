@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surveyist/adminProvider/adminHomeProvider.dart';
@@ -22,15 +22,17 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   @override
   void initState() {
     super.initState();
-   // Provider.of<AllOpeationAndUpdate>(context, listen: false).fetchAllLoginRecords();
+    Provider.of<Adminhomeprovider>(context, listen: false)
+        .fetchAllLoginDetails();
   }
 
   @override
   Widget build(BuildContext context) {
-    final providerHome= Provider.of<Adminhomeprovider>(context);
-     final loginUpdateProvider= Provider.of<AllOpeationAndUpdate>(context,listen: false);
+    final providerHome = Provider.of<Adminhomeprovider>(context);
+    final loginUpdateProvider =
+        Provider.of<AllOpeationAndUpdate>(context, listen: false);
     //  var loginDocs=adminHomeProvider.todaysLogins;
-    var   user_iddoc=providerHome.userIdLists;
+    var user_iddoc = providerHome.loginRecordList;
 
     return Scaffold(
       body: Padding(
@@ -80,71 +82,72 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                 ),
                 Container(
                   child: Text(
-                    "All_Active users",
+                    "Active users",
                     style: CustomText.nameOfTextStyle,
                   ),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 1 / 100,
                 ),
-                // FutureBuilder(future:loginUpdateProvider.fetchAllLoginRecords(),
-                
-                //  builder: (context, snapshot) {
-                //   if (snapshot.connectionState == ConnectionState.waiting) {
-                //     return Center(
-                //       child: CircularProgressIndicator(),
-                //     );
-                //   }
-                //   if (snapshot.hasError) {
-                //     return Center(
-                //       child: Text("no login record"),
-                //     );
-                //   }
-                //    final record = loginUpdateProvider;
-                //    if(record.isEmpty)
-                //    {
-                //     return Center(child:Text("no login found yet"),);
-                //    }
-                //   return Expanded(
-                //     child: ListView.builder(
-                //       itemCount: record.length,
-                //       itemBuilder: (context, index) {
-                //         final us = record[index];
-                //         return Container(
-                //           height: MediaQuery.of(context).size.height * 15 / 100,
-                //           width: MediaQuery.of(context).size.width * 9 / 100,
-                //           child: Card(
-                //             child: Column(
-                //               children: [
-                //                 Text("user_Login_Date:-${us.loginDate ?? 'no name'}"),
-                //                 Text("user_Time:-${us.loginTime ?? 'no name'}"),
-                //                // Text("${user['created_at'] ?? 'no name'}"),
-                //                 Text("user_address:-${us.address?? 'no name'}"),
-                //                 Text("user_: ${us.latitude ?? 'no name'}"),
-                //                   Text("user_: ${us.longitude ?? 'no name'}"),
-                //                     Text("user_: ${us.model?? 'no name'}"),
-                //                       Text("user_: ${us.deviceBrand ?? 'no name'}"),
-                //                        Text("user_: ${us.board?? 'no name'}"),
-                //                         Text("user_: ${us. device?? 'no name'}"),
-                //                          Text("user_: ${us.deviceId ?? 'no name'}"),
-                            
-
-
-                                
-                //               ],
-                //             ),
-                //           ),
-                //         );
-                //       },
-                //     ),
-                //     );
-                    
-                
-                // },
-                //)
-               
-        
-
+                FutureBuilder(
+                    future: providerHome.fetchAllLoginDetails(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text("no login record"),
+                        );
+                      }
+                      final record = user_iddoc;
+                      if (record.isEmpty) {
+                        return Center(
+                          child: Text("no login found yet"),
+                        );
+                      }
+                      return Expanded(
+                          child: ListView.builder(
+                              itemCount: record.length,
+                              itemBuilder: (context, index) {
+                                final us = record[index];
+                                return Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      29 /
+                                      100,
+                                  width: MediaQuery.of(context).size.width *
+                                      9 /
+                                      100,
+                                  child: Card(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                            "Login_Date:   -${us.loginDate ?? 'no name'}"),
+                                        Text(
+                                            "Login_Time:   -${us.loginTime ?? 'no name'}"),
+                                        // Text("${user['created_at'] ?? 'no name'}"),
+                                        Text(
+                                            " Login_ address:-   ${us.address ?? 'no name'}"),
+                                        Text(
+                                            "latitude_: ${us.latitude ?? 'no name'}"),
+                                        Text(
+                                            "longitude_:  ${us.longitude ?? 'no name'}"),
+                                        Text("device name_ : ${us.model ?? 'no name'}"),
+                                        Text(
+                                            "device Brand  _: ${us.deviceBrand ?? 'no name'}"),
+                                        Text("user_: ${us.board ?? 'no name'}"),
+                                        Text(
+                                            "device: ${us.device ?? 'no name'}"),
+                                        Text(
+                                            "Device_: ${us.deviceId ?? 'no name'}"),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }));
+                    })
               ])),
       bottomNavigationBar:
           AppFooterUi(notificationCount: 0, selectMenu: ButtomMenu.home),

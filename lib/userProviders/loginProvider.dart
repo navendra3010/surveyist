@@ -351,7 +351,7 @@ class LoginProviderForUser extends ChangeNotifier {
               address = await _getAddressFromLatLng(
                   position.latitude, position.longitude);
               await getDeviceinfo();
-              await _storeLoginDetails(
+              storeLoginDetails(
                 FirebaseauthenticationStatus.auth.currentUser!.uid,
                 address,
                 position.latitude,
@@ -450,7 +450,53 @@ class LoginProviderForUser extends ChangeNotifier {
     return "${place.street}, ${place.locality}, ${place.country}";
   }
 
-  Future<void> _storeLoginDetails(
+  ///-/ another way to store logiin detail in firstore
+//=--------------------------------------------------------------------------------------//
+  Future<void> saveloginDetails(
+      {required String userId,
+      required Map<String, dynamic> loginDetails,
+      required String daykey}) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    try {
+      DocumentReference userDoc =
+          firestore.collection('usersloginRecords').doc(userId);
+
+      // Check if the user's document exists
+      DocumentSnapshot userSnapshot = await userDoc.get();
+
+      if (!userSnapshot.exists) {
+        // Create the user's document if it doesn't exist
+        await userDoc.set({
+          'created_at': DateTime.now().toIso8601String(),
+        });
+        print("Parent document for userId $userId created.");
+      }
+
+      // Reference to the date-specific document
+      DocumentReference dateDoc = userDoc.collection('loginDates').doc(daykey);
+
+      // Check if the date-specific document exists
+      DocumentSnapshot dateSnapshot = await dateDoc.get();
+
+      if (!dateSnapshot.exists) {
+        // Create the date document if it doesn't exist
+        await dateDoc.set({
+          'date': daykey,
+          'created_at': DateTime.now().toIso8601String(),
+        });
+        print("Date document for $daykey created under userId $userId.");
+      }
+
+      // Add the login details to the logins subcollection
+      await dateDoc.collection('logins').add(loginDetails);
+
+      print("Login details for $daykey saved successfully for userId $userId.");
+    } catch (e) {
+      print("Error saving login details: $e");
+    }
+  }
+
+  void storeLoginDetails(
       String uid,
       String? address,
       double latitude,
@@ -460,38 +506,27 @@ class LoginProviderForUser extends ChangeNotifier {
       String? model,
       String? brand,
       String? board) async {
-    // print(uid);
-    // print(address);
-    // print(latitude);
-    // print(longitude);
-    // print(id);
-    // print(device);
-    // print(model);
-    // print(brand);
-    // print(board);
-    // print(uid);
-    //print(uid);
+    String userId = uid; // Replace with actual user ID
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd/MM/yyyy a').format(now);
     String formattedTime = DateFormat(' hh:mm:ss a').format(now);
 
-    String dateKey = DateFormat('dd-MM-yyyy').format(now); // Date as key
-    await FirebaseFirestore.instance
-        .collection("loginRecords")
-        .doc(uid)
-        .collection(dateKey)
-        .add({
-      "login_date": formattedDate,
-      "Login_time": formattedTime,
-      "latitude": latitude,
-      "longitude": longitude,
-      "address": address,
-      "device_Id": id,
-      "device_brand": brand,
-      "device": device,
-      "model": model,
-      "board": board,
-    });
+    String dateKey = DateFormat('dd-MM-yyyy').format(now);
+    Map<String, dynamic> loginDetails = {
+      'login_date': formattedDate,
+      'Login_time': formattedTime,
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
+      'device_Id': id,
+      'device_brand': brand,
+      'device': device,
+      'model': model,
+      'board': board,
+    };
+
+    await saveloginDetails(
+        userId: userId, loginDetails: loginDetails, daykey:dateKey);
   }
 
   void _showLocationDialog(BuildContext context) {

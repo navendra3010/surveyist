@@ -49,7 +49,7 @@ class _viewAllUserpageState extends State<viewAllUserpage> {
     super.initState();
     // getAlldocumentFromCollection
     Provider.of<Adminhomeprovider>(context, listen: false).getAllUsers();
-    Provider.of<Adminhomeprovider>(context, listen: false).getAlldocumentFromCollection();
+   
   }
 
   void _showAlertDialog(BuildContext context) {
