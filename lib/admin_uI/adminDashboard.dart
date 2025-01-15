@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surveyist/adminProvider/adminHomeProvider.dart';
 import 'package:surveyist/adminProvider/adminoperationProvider.dart';
+import 'package:surveyist/admin_uI/createNewUsers.dart';
 
-import 'package:surveyist/admin_uI/usersDetails.dart';
+
 import 'package:surveyist/utils/TextSyle.dart';
 
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appFooter.dart';
-import 'package:surveyist/utils/appSnackBarOrToastMessage.dart';
+
 
 class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
@@ -59,7 +60,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           buildBoxContainer(
-                              context, "A", ViewUserDetailsOnlyadmin()),
+                              context, "new_users", CreateNewUs()),
                           buildBoxContainer(context, "B"),
                         ],
                       ),

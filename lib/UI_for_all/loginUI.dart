@@ -29,58 +29,6 @@ class _LoginScreenForAllState extends State<LoginScreenForAll> {
   TextEditingController userEmailController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
 
-  //Position? _currentPosition;
-  // String? _currentAddress;
-
-  // loginEmailWithPassword(userEmail, userPassword) {
-  //   int len = userPassword.length;
-  //   if (userEmail == "") {
-  //     ShowTaostMessage.toastMessage(
-  //         context, Applanguage.entterEmailText[Applanguage.language]);
-  //   } else if ((!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(userEmail))) {
-  //     ShowTaostMessage.toastMessage(
-  //         context, Applanguage.NotValidEmail[Applanguage.language]);
-  //   } else if (userPassword == "") {
-  //     ShowTaostMessage.toastMessage(
-  //         context, Applanguage.passwordNameessage[Applanguage.language]);
-  //   } else if (userPassword == "") {
-  //     ShowTaostMessage.toastMessage(
-  //         context, Applanguage.passwordNameessage[Applanguage.language]);
-  //   } else if (len < 6) {
-  //     ShowTaostMessage.toastMessage(
-  //         context, Applanguage.passWordlength[Applanguage.language]);
-  //   } else {
-  //there i will use firebase authication functionality.......................
-
-  // FirebaseauthenticationStatus.auth
-  //     .signInWithEmailAndPassword(email: userEmail, password: userPassword)
-  //     .then((value) {
-  //   // Navigator.push(context,
-  //   //     MaterialPageRoute(builder: (context) => UserDashBoardScreen()));
-
-  // });
-
-  //Provider.userLoginAuthantication(userEmail.userPassword);
-
-  // if (userEmail == "admin1@gmail.com" && userPassword == "123456") {
-  //   Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //           builder: (context) => const AdminDashboardPage()));
-  //   ShowTaostMessage.toastMessage(context, "SuccesfullLogin");
-  // } else if (userEmail == "manager1@gmail.com" &&
-  //     userPassword == "1234567") {
-  //   Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //           builder: (context) => const ManagerdashboardPage()));
-  // } else if (userEmail == "user1@gmail.com" && userPassword == "12345678") {
-  //   Navigator.push(context,
-  //       MaterialPageRoute(builder: (context) => UserDashBoardScreen()));
-  // }
-  //}
-  //}
-
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<LoginProviderForUser>(context);

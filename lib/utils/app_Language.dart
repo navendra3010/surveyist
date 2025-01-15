@@ -221,6 +221,20 @@ class Applanguage {
     static const TaskDueDate = ["20-12-2024"];
     //31-12-2025
     static const nullMessage=["Email and password null"];
+    //darte 15-1-2025 ----information for project related work
+     static const createNewUser=["Create_New_User"];
+      static const fullName=["Enter full Name"];
+       static const dob=["Enter_Date_Of_birth"];
+            static const gender=["Select_Gender"];
+                static const address=["Enter the complete address"];
+                  static const employeId=["Enter Employe ID"];
+                  static const mobileNumber=["Enter_Mobile_Number"];
+                    static const mobileLength=["Mobile Must Must Be 10  Digit"];
+                      static const  loginId=["Enter Login login ID"];
+                       static const  loginIdvalid=["Enter valid login ID"];
+                        static const  loginPasswordmsg=["Password must be more than 4 digit"];
+
+
 
 
 }

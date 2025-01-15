@@ -64,7 +64,7 @@ List loginRecordList=[];
         //  var userData = element.data();
         //  print(userData);
         var usergetid = element.id;
-        print(usergetid);
+       // print(usergetid);
         QuerySnapshot<Map<String, dynamic>> loginsSnapshot =
             await FirebaseFirestore.instance
                 .collection('usersloginRecords')
@@ -91,12 +91,12 @@ List loginRecordList=[];
           // print("Login details for userId: $userId on date: $date:");
 
           // Iterate through each document and print details
-          for (var doc in loginsSnapshot.docs) {
-            print("Login ID: ${doc.id}");
-            print("Data: device id ${doc.data()["device_Id"]}");
-          }
+          // for (var doc in loginsSnapshot.docs) {
+          //   print("Login ID: ${doc.id}");
+          //   print("Data: device id ${doc.data()["device_Id"]}");
+          // }
         }
-        print("hello------hello-----------");
+       // print("hello------hello-----------");
       }
     } catch (e) {
       print(e);

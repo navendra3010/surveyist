@@ -526,7 +526,7 @@ class LoginProviderForUser extends ChangeNotifier {
     };
 
     await saveloginDetails(
-        userId: userId, loginDetails: loginDetails, daykey:dateKey);
+        userId: userId, loginDetails: loginDetails, daykey: dateKey);
   }
 
   void _showLocationDialog(BuildContext context) {
