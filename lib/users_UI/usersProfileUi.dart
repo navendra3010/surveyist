@@ -1,12 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:surveyist/userModel/userProfilemodel.dart';
+import 'package:surveyist/userProviders/loginProvider.dart';
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appFont.dart';
 import 'package:surveyist/utils/appFooter.dart';
 import 'package:surveyist/utils/appImage.dart';
 import 'package:surveyist/utils/footerForUsers.dart';
 
-class UsersprofilePage extends StatelessWidget {
+class UsersprofilePage extends StatefulWidget {
   const UsersprofilePage({super.key});
+
+  @override
+  State<UsersprofilePage> createState() => _UsersprofilePageState();
+}
+
+class _UsersprofilePageState extends State<UsersprofilePage> {
+  
+
   void _showAlertDialog(BuildContext context, String name) {
     showDialog(
       context: context,
@@ -32,9 +44,17 @@ class UsersprofilePage extends StatelessWidget {
       },
     );
   }
+  // @override
+  // void initState()
+  // {
+  //   super.initState();
+  //     Provider.of<LoginProviderForUser>(context, listen: false)
+  //       .getUserprofile();
+  //  }
 
   @override
   Widget build(BuildContext context) {
+      final auth = Provider.of<LoginProviderForUser>(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8),
@@ -43,16 +63,37 @@ class UsersprofilePage extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 3 / 100,
             ),
-            Center(
+            FutureBuilder(
+              
+              future:auth.getDeviceinfo(), 
+            builder: (context, snapshot) {
+              if(snapshot.connectionState==ConnectionState.waiting)
+              {
+                return Center(
+                  child:CircularProgressIndicator(),
+                );
+              }
+              if(snapshot.hasError)
+              {
+                return Center(
+                  child:Text("No user profile"),
+                );
+              }
+             
+             return Column(
+              children: [
+//column start---------------------------
+Center(
                 child: Card(
               child: Text(
-                "User_Profile",
+                "",
                 style: TextStyle(
                     color: Colors.black,
                     fontFamily: AppFont.fontFamily,
                     fontWeight: FontWeight.w800),
               ),
-            )),
+                )
+                ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 5 / 100,
             ),
@@ -105,7 +146,7 @@ class UsersprofilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Name",
+                          "${''}",
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: AppFont.fontFamily,
@@ -310,7 +351,14 @@ class UsersprofilePage extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 2 / 100,
             ),
+//colomn end here--------------------
+              ],
+             ) ;
+            }
+            )
+
           ],
+        
         ),
       ),
       bottomNavigationBar:

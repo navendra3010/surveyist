@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:surveyist/adminModel/createUserAccount.dart';
+import 'package:surveyist/adminModel/createUserAccountModel.dart';
 import 'package:surveyist/adminProvider/accountCreateprovider.dart';
 import 'package:surveyist/admin_uI/adminDashboard.dart';
 import 'package:surveyist/utils/appButton.dart';
@@ -348,6 +348,7 @@ class _CreateNewUsState extends State<CreateNewUs> {
                 obj.mobileNumber = createPhoneNumber.text.toString().trim();
                 obj.loginId = crateLoginID.text.toString().trim();
                 obj.loginPassword = crateLoginPassword.text.toString().trim();
+                obj.isAdmin=true;
                 createProvider.userNewAccount(obj,context);
                 
 

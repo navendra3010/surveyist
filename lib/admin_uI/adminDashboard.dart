@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surveyist/adminProvider/adminHomeProvider.dart';
 import 'package:surveyist/adminProvider/adminoperationProvider.dart';
-import 'package:surveyist/admin_uI/createNewUsers.dart';
+import 'package:surveyist/admin_uI/createNewUsersUi.dart';
 
 
 import 'package:surveyist/utils/TextSyle.dart';
@@ -23,8 +23,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<Adminhomeprovider>(context, listen: false)
-        .fetchAllLoginDetails();
+    // Provider.of<Adminhomeprovider>(context, listen: false)
+    //     .fetchAllLoginDetails();
   }
 
   @override

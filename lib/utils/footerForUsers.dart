@@ -6,7 +6,7 @@ import 'package:surveyist/admin_uI/viewAllUser.dart';
 import 'package:surveyist/users_UI/UserWorkHistory.dart';
 import 'package:surveyist/users_UI/userDashboard.dart';
 import 'package:surveyist/users_UI/userWorkProgess.dart';
-import 'package:surveyist/users_UI/usersProfile.dart';
+import 'package:surveyist/users_UI/usersProfileUi.dart';
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appImage.dart';
 

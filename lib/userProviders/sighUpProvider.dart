@@ -109,7 +109,7 @@ class Sighupprovider extends ChangeNotifier {
     else {
       bool adminExit = await checkIfAdminAccounnt();
       notifyListeners();
-      String userRole = userReg.isAdmin! && adminExit ? 'admin' : 'user';
+      String? userRole = userReg.isAdmin! && adminExit ? 'admin' : 'user';
       notifyListeners();
 
       try {

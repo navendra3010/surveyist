@@ -12,6 +12,7 @@ import 'package:surveyist/controller/fireStoreCollection.dart';
 import 'package:surveyist/localization/deviceInformation.dart';
 import 'package:surveyist/localization/location.dart';
 import 'package:surveyist/repositry/firebaseAuthentication.dart';
+import 'package:surveyist/userModel/userProfilemodel.dart';
 import 'package:surveyist/users_UI/userDashboard.dart';
 
 import 'package:surveyist/utils/appSnackBarOrToastMessage.dart';
@@ -291,6 +292,7 @@ class LoginProviderForUser extends ChangeNotifier {
   User? currentUser;
   String? userRole;
   bool isloading = false;
+  String? everyUser;
   Future<void> checkAuthstatus() async {
     currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
@@ -300,10 +302,11 @@ class LoginProviderForUser extends ChangeNotifier {
     bool isloading = true;
     notifyListeners();
   }
+  //check user role or admin role....................
 
   Future<String?> fatchUserRole(String currentUserLoginId) async {
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-        .collection('users')
+        .collection('allusers')
         .doc(currentUserLoginId)
         .get();
     if (documentSnapshot.exists) {
@@ -366,6 +369,10 @@ class LoginProviderForUser extends ChangeNotifier {
               isloading = false;
               notifyListeners();
             }
+            ///here get unqiue profile funcation----------------------------
+            everyUser=currentUser!.uid;
+            notifyListeners();
+             await getUserprofile();
 
             Navigator.push(
               context,
@@ -565,6 +572,18 @@ class LoginProviderForUser extends ChangeNotifier {
         );
       }
     });
+  }
+
+  //get uniuque profile for users..................
+   Future<Userprofilemodel?>getUserprofile()async
+  {
+     DocumentSnapshot snapshot=await FirebaseFirestore.instance.collection("allusers").doc(everyUser).get();
+   
+    return  Userprofilemodel.FromFireStore(snapshot);
+    //print(snapshot.data());
+     
+    
+
   }
 }
 
