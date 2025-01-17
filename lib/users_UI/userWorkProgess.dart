@@ -109,7 +109,7 @@ class _WorkProgessState extends State<WorkProgess> {
           }),
         ),
       ),
-      bottomNavigationBar: const footerUiForUsers(
+      bottomNavigationBar:  footerUiForUsers(
           notificationCount: 0, selectMenu2: ButtomMenu2.progess),
     );
   }

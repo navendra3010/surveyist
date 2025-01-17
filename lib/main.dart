@@ -7,6 +7,8 @@ import 'package:surveyist/UI_for_all/splashUI.dart';
 import 'package:surveyist/adminProvider/accountCreateprovider.dart';
 import 'package:surveyist/adminProvider/adminHomeProvider.dart';
 import 'package:surveyist/adminProvider/adminoperationProvider.dart';
+import 'package:surveyist/adminProvider/commanproviderforAdmin.dart';
+import 'package:surveyist/userProviders/commanProvider.dart';
 import 'package:surveyist/userProviders/locationProvider.dart';
 import 'package:surveyist/userProviders/loginProvider.dart';
 import 'package:surveyist/utils/appFont.dart';
@@ -24,11 +26,14 @@ void main() async{
   runApp(
     MultiProvider(providers: [
        //Provider(create: (context) =>(),),
+       
         ChangeNotifierProvider(create: (context) =>LoginProviderForUser()),
          ChangeNotifierProvider(create: (context) =>LocationProviderr()),
           ChangeNotifierProvider(create: (context) =>Adminhomeprovider()),
            ChangeNotifierProvider(create: (context) =>AllOpeationAndUpdate()),
             ChangeNotifierProvider(create: (context) => Accountcreate()),
+              ChangeNotifierProvider(create: (context) =>CommanProviderForUser()),
+               ChangeNotifierProvider(create: (context) =>CommanproviderAdmin()),
           
 
     ],
@@ -51,6 +56,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const Splash(),
     );
+    
   }
 }
 

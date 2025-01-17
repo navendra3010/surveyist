@@ -1,48 +1,58 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:surveyist/admin_uI/viewAllUser.dart';
 
-class ViewAllUsers
-{
-
-
-  String? email;
-  String? id;
+class ViewAllUsers {
+  String? userName;
+  String? userEmail;
+  String? userDateOfBirth;
+  String? userEmployeId;
+  String? userLoginId;
+  String? userGender;
+  String? userAddress;
+  String? userMobileNumber;
   String? role;
-  String? password;
-   DateTime? createdAt;
-  ViewAllUsers({this.email,this.createdAt,this.role,this.id,this.password});
+  String? uniqueId;
 
-
-  Map<String,dynamic>toJson()
-  {
+  ViewAllUsers(
+      {this.userName,
+      this.userEmail,
+      this.userDateOfBirth,
+      this.userEmployeId,
+      this.userLoginId,
+      this.userAddress,
+      this.userGender,
+      this.role,
+      this.userMobileNumber,
+      this.uniqueId});
+  Map<String, dynamic> toFireStore() {
     return {
-           "email":email,
-           "role":role,
-           "id":id,
-           "createdAt":createdAt,
-           "password":password
+      "full_name": userName,
+      "date_Of_Birth": userDateOfBirth,
+      "gender": userGender,
+      "email": userEmail,
+      "address": userAddress,
+      "employeId": userEmployeId,
+      "mobile_number": userMobileNumber,
+      "login_Id": userLoginId,
+      "role": role,
+      "unique_Id": uniqueId,
     };
   }
-  // factory ViewAllUsers.Fromjson(DocumentSnapshot<Map<String,dynamic>>snapshot,
-  // SnapshotOptions? options,){
-  //   final data=snapshot.data();
-  //   return ViewAllUsers(
-  //     email: data?['email'],
-  //     role: data?['role'],
-  //     id:data?['data'],
-  //     password: data?['password'],
-  //     createdAt: data?['createdAt'],
-  //   );
-  // }
-  factory ViewAllUsers.Fromjson(DocumentSnapshot<Map<String,dynamic>>documentSnapshot)
-  {
-    final data=documentSnapshot.data()!;
+
+  factory ViewAllUsers.FromFireStore(DocumentSnapshot snapshot) {
+   // Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    final data = snapshot.data() as Map<String, dynamic>;
     return ViewAllUsers(
-      email: data?['email'],
-      role: data?['role'],
-      id:data?['singupId'],
-      password: data?['password'],
-      createdAt: data?['createdAt'],
+      userName: data["full_name"],
+      userDateOfBirth: data["date_Of_Birth"],
+      userGender: data["gender"],
+      userEmail: data["email"],
+      userAddress: data["address"],
+      userEmployeId: data["employeId"],
+      userMobileNumber: data["mobile_number"],
+      userLoginId: data["login_Id"],
+      role: data['role'],
+      uniqueId: data['unique_Id'],
     );
   }
 }

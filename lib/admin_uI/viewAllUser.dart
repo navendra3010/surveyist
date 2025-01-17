@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:surveyist/adminModel/allUsersModel.dart';
 import 'package:surveyist/adminProvider/adminHomeProvider.dart';
+import 'package:surveyist/adminProvider/commanproviderforAdmin.dart';
 import 'package:surveyist/admin_uI/usersDetails.dart';
 import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appFont.dart';
@@ -48,7 +50,7 @@ class _viewAllUserpageState extends State<viewAllUserpage> {
   void initState() {
     super.initState();
     // getAlldocumentFromCollection
-    Provider.of<Adminhomeprovider>(context, listen: false).getAllUsers();
+   // Provider.of<Adminhomeprovider>(context, listen: false).getAllUsers();
    
   }
 
@@ -98,7 +100,7 @@ class _viewAllUserpageState extends State<viewAllUserpage> {
 
   @override
   Widget build(BuildContext context) {
-    final providerAll = Provider.of<Adminhomeprovider>(context);
+    final adminCommanprovider = Provider.of<CommanproviderAdmin>(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(5.0),
@@ -138,9 +140,9 @@ class _viewAllUserpageState extends State<viewAllUserpage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 2 / 100,
             ),
-            FutureBuilder(
-                //stream: providerAll.fatchAllUsers(),
-                future: providerAll.getAllUsers(),
+            StreamBuilder<List<ViewAllUsers?>>(
+                stream: adminCommanprovider.allUsersStream,
+              //  future: providerAll.getAllUsers(),
                // future: providerAll.getAlldocumentFromCollection(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -153,25 +155,25 @@ class _viewAllUserpageState extends State<viewAllUserpage> {
                       child: Text("no user Found"),
                     );
                   }
-                  var users = providerAll.alluserList;
+                  var users =snapshot.data;
  
                   return Expanded(
                     child: ListView.builder(
-                      itemCount: users.length,
+                      itemCount: users!.length,
                       itemBuilder: (context, index) {
                         final user = users[index];
                         return Container(
-                          height: MediaQuery.of(context).size.height * 15 / 100,
+                          height: MediaQuery.of(context).size.height * 6 / 100,
                           width: MediaQuery.of(context).size.width * 9 / 100,
                           child: Card(
                             child: Column(
                               children: [
-                                Text("user_Email:-${user.email ?? 'no name'}"),
-                                Text("user_role:-${user.role ?? 'no name'}"),
+                                Text("Employe_ID:-${user!.userEmployeId ?? 'no name'}"),
+                                Text("Email:-${user.userLoginId ?? 'no name'}"),
                                // Text("${user['created_at'] ?? 'no name'}"),
-                                Text("password:-${user.password?? 'no name'}"),
-                                Text("user-Id: ${user.id ?? 'no name'}"),
-                                 // Text("user_Email:-${user?? 'no name'}"),
+                                // Text("password:-${user.password?? 'no name'}"),
+                                // Text("user-Id: ${user.id ?? 'no name'}"),
+                                //  // Text("user_Email:-${user?? 'no name'}"),
 
 
                                 

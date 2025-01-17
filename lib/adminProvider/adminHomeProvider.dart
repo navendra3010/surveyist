@@ -42,14 +42,14 @@ class Adminhomeprovider extends ChangeNotifier {
   List alluserList = [];
   bool isFatchDone = false;
 //all register users........................
-  Future<List<ViewAllUsers>> getAllUsers() async {
-    final snapshot = await FirebaseFirestore.instance.collection('users').get();
-    final userdata =
-        snapshot.docs.map((e) => ViewAllUsers.Fromjson(e)).toList();
-    alluserList = userdata;
+  // Future<List<ViewAllUsers>> getAllUsers() async {
+  //   // final snapshot = await FirebaseFirestore.instance.collection('users').get();
+  //   // final userdata =
+  //   //     snapshot.docs.map((e) => ViewAllUsers.Fromjson(e)).toList();
+  //   // alluserList = userdata;
 
-    return userdata;
-  }
+  //    return null;
+  // }
 
  
 List loginRecordList=[];

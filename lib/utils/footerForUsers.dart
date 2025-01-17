@@ -11,11 +11,12 @@ import 'package:surveyist/utils/appConstant.dart';
 import 'package:surveyist/utils/appImage.dart';
 
 class footerUiForUsers extends StatelessWidget {
-  const footerUiForUsers(
-      {required this.notificationCount, required this.selectMenu2, super.key});
+   footerUiForUsers(
+      {required this.selectMenu2, super.key,this.notificationCount});
 
   final ButtomMenu2 selectMenu2;
   final int? notificationCount;
+  
 
   @override
   Widget build(BuildContext context) {

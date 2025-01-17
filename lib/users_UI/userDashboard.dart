@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:surveyist/admin_uI/adminDashboard.dart';
+import 'package:surveyist/userProviders/commanProvider.dart';
 import 'package:surveyist/users_UI/taskDetail.dart';
 import 'package:surveyist/utils/TextSyle.dart';
 import 'package:surveyist/utils/appConstant.dart';
@@ -12,13 +14,16 @@ import 'package:surveyist/utils/app_Language.dart';
 import 'package:surveyist/utils/footerForUsers.dart';
 
 class UserDashBoardScreen extends StatefulWidget {
-  UserDashBoardScreen({super.key});
+  final String? userId;
+  UserDashBoardScreen({super.key, this.userId});
 
   @override
   State<UserDashBoardScreen> createState() => _UserDashBoardScreenState();
 }
 
 class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
+
+  
   List<dynamic> taskList = <dynamic>[
     {
       "TaskName": "complete all measurment and submit distance with elecation",
@@ -59,6 +64,8 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final providerComman= Provider.of<CommanProviderForUser>(context ,listen: false);
+    
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(1),
@@ -428,99 +435,7 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 6 / 100,
             ),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 10),
-            //   child: Container(
-            //     child: Text("Recent_leave_ Request",
-            //         style: TextStyle(
-            //             fontFamily: AppFont.fontFamily,
-            //             fontSize: 18,
-            //             color: Colors.black87,
-            //             fontWeight: FontWeight.w600)),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: MediaQuery.of(context).size.height * 2 / 100,
-            // ),
-            // Center(
-            //   child: Container(
-            //     height: MediaQuery.of(context).size.height *
-            //         7 /
-            //         100, // Height for each item
-            //     width: MediaQuery.of(context).size.width *
-            //         95 /
-            //         100, // Width for each item
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.all(Radius.circular(5)),
-            //       color: const Color.fromARGB(255, 228, 153, 41),
-            //     ),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       // crossAxisAlignment: CrossAxisAlignment.en,
-            //       children: [
-            //         Container(
-            //           child: Column(
-            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //             crossAxisAlignment: CrossAxisAlignment.start,
-            //             children: [
-            //               Text(
-            //                 "Casual",
-            //                 style: TextStyle(
-            //                   fontSize: 12,
-            //                   fontWeight: FontWeight.w600,
-            //                   color: Colors.black,
-            //                 ),
-            //               ),
-            //               Text(
-            //                 "12-12-2024",
-            //                 style: TextStyle(
-            //                   fontSize: 12,
-            //                   fontWeight: FontWeight.w600,
-            //                   color: Colors.white,
-            //                 ),
-            //               ),
-            //               Text(
-            //                 "1 Days leave",
-            //                 style: TextStyle(
-            //                   fontSize: 12,
-            //                   fontWeight: FontWeight.w600,
-            //                   color: Colors.white,
-            //                 ),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //         Container(
-            //           child: Column(
-            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //               children: [
-            //                 Card(
-            //                   child: Text(
-            //                     "  processing......",
-            //                     style: TextStyle(
-            //                       fontSize: 12,
-            //                       fontWeight: FontWeight.w600,
-            //                       color: Colors.black,
-            //                     ),
-            //                   ),
-            //                 ),
-            //                 InkWell(
-            //                   onTap: () {},
-            //                   child: Text(
-            //                     "view",
-            //                     style: TextStyle(
-            //                       fontSize: 12,
-            //                       fontWeight: FontWeight.w600,
-            //                       color: Colors.white,
-            //                     ),
-            //                   ),
-            //                 )
-            //               ]),
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // )
+            
            Center(
           child:TextButton(onPressed: ()
           {
@@ -530,8 +445,8 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: footerUiForUsers(
-          notificationCount: 0, selectMenu2: ButtomMenu2.userHome),
+      bottomNavigationBar:
+          footerUiForUsers(notificationCount: 0, selectMenu2: ButtomMenu2.userHome),
     );
   }
 }
