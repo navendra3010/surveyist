@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +14,10 @@ import 'package:surveyist/controller/fireStoreCollection.dart';
 import 'package:surveyist/localization/deviceInformation.dart';
 import 'package:surveyist/localization/location.dart';
 import 'package:surveyist/repositry/firebaseAuthentication.dart';
+import 'package:surveyist/userModel/deviceInfomodel.dart';
+import 'package:surveyist/userModel/deviceLocatioModel.dart';
 import 'package:surveyist/userModel/userProfilemodel.dart';
+import 'package:surveyist/userModel/userlogin.dart';
 import 'package:surveyist/userProviders/commanProvider.dart';
 import 'package:surveyist/users_UI/userDashboard.dart';
 
@@ -351,26 +355,72 @@ class LoginProviderForUser extends ChangeNotifier {
             );
           } else if (userRole == "user") {
             //here userLocation and device infomartion i will add
+            
             Position? position = await _determinePosition(context);
             if (position != null) {
-              address = await _getAddressFromLatLng(
-                  position.latitude, position.longitude);
-              await getDeviceinfo();
-              storeLoginDetails(
-                FirebaseauthenticationStatus.auth.currentUser!.uid,
-                address,
-                position.latitude,
-                position.longitude,
-                id,
-                device,
-                model,
-                brand,
-                board,
+              Devicelocation dvlocation=Devicelocation();
+                dvlocation.latitude = position.latitude;
+             dvlocation.longitude = position.longitude;
+             dvlocation.address=await _getAddressFromLatLng(
+                position.latitude,position.longitude
               );
+              notifyListeners();
+           // print(dvlocation.toFireStore());
+              
+            
+              
+              // address = await _getAddressFromLatLng(
+              //     position.latitude, position.longitude);
+                  //this funcation for Device info....................
+              await getDeviceinfo();
+              // right now iam commenting this for my tesing
+               
+                notifyListeners();
+              
+
+
+
+
+              // storeLoginDetails(
+              //   FirebaseauthenticationStatus.auth.currentUser!.uid,
+              //   address,
+              //   position.latitude,
+              //   position.longitude,
+              //   id,
+              //   device,
+              //   model,
+              //   brand,
+              //   board,
+              // );
 
               isloading = false;
               notifyListeners();
             }
+               print("----------------------------------------------------------------------------------getuser details");
+                UserLoginModel userlomdl=UserLoginModel();
+                 var l=userlomdl.location;
+                 for (var element in l) {
+                  print(element.address);
+                  print(element.latitude);
+                  print(element.longitude);
+                   
+                 }
+                userlomdl.deviceinfo.forEach((device)=>print(device));
+                notifyListeners();
+               // print(userlomdl.toFireStore());
+
+            //  void getAllUserDetail()
+            //   {
+            //      UserLoginModel userlomdl=UserLoginModel();
+            //  //there is alll login detail----------------------------//------------------------------------------------------------------------------
+           
+            // Map<String, dynamic> firestoreData = userlomdl.toFireStore();
+            //print("Firestore Data: ${firestoreData.}");
+            //     // print(userlomdl.toFireStore());
+            //     // print(userlomdl.location);
+            //     print(userlomdl.deviceinfo);
+            //     notifyListeners();
+            //   }
             ///here get unqiue profile funcation----------------------------
             userID=currentUser!.uid;
             notifyListeners();
@@ -417,16 +467,31 @@ class LoginProviderForUser extends ChangeNotifier {
       }
     }
   }
-
+ Deviceinformation dvinfo=Deviceinformation();
   Future<String> getDeviceinfo() async {
+
+
     DeviceInfo deviceInfo = await DeviceInfo.loginDeviceInfo();
-    board = deviceInfo.board;
-    id = deviceInfo.id;
-    device = deviceInfo.device;
-    model = deviceInfo.model;
-    brand = deviceInfo.brand;
+    // board = deviceInfo.board;
+    // id = deviceInfo.id;
+    // device = deviceInfo.device;
+    // model = deviceInfo.model;
+    // brand = deviceInfo.brand;
+    //this is model class based information.........starting..................
+    dvinfo.board=deviceInfo.board;
+    dvinfo.device=deviceInfo.device;
+    dvinfo.deviceBrand=deviceInfo.brand;
+    dvinfo.model=deviceInfo.model;
+    dvinfo.deviceId=deviceInfo.id;
+   // print(dvinfo.toFireStore());
+    notifyListeners();
+  //ending----------------------------------------------------------------
     return '${board},${id},${board},${model},${brand}';
   }
+//location object-----------------------------
+
+
+
 
   Future<Position?> _determinePosition(BuildContext context) async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -451,12 +516,17 @@ class LoginProviderForUser extends ChangeNotifier {
     return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
+  
   }
 
   Future<String> _getAddressFromLatLng(double lat, double lng) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
     Placemark place = placemarks[0];
+    //  dvlocation.latitude=lat;
+    //  dvlocation.longitude=lng;
+    //  dvlocation.address=address;
     return "${place.street}, ${place.locality}, ${place.country}";
+    
   }
 
   ///-/ another way to store logiin detail in firstore
