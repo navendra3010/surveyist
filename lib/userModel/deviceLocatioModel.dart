@@ -1,11 +1,10 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Devicelocation {
   String? address;
   double? latitude;
   double? longitude;
+
   Devicelocation({this.address, this.latitude, this.longitude});
 
   Map<String, dynamic> toFireStore() {
@@ -16,16 +15,16 @@ class Devicelocation {
     };
   }
 
-  factory Devicelocation.fromFireStore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+  factory Devicelocation.fromFireStore(Map<String, dynamic> data) {
+    // Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Devicelocation(
-      address: data["address"] as String?,
-      latitude: data["latitude"] as double?,
-      longitude: data["longitude"] as double?,
+      address: data["address"],
+      latitude: data["latitude"],
+      longitude: data["longitude"],
     );
   }
-   @override
-  String toString() {
-    return "Address: $address, Latitude: $latitude, Longitude: $longitude";
-  }
+  //  @override
+  // String toString() {
+  //   return "Address: $address, Latitude: $latitude, Longitude: $longitude";
+  // }
 }

@@ -12,18 +12,18 @@ class Deviceinformation {
 
   Map<String, dynamic> toFireStore() {
     return {
-      "device": device as String,
-      "device_Id": deviceId as String,
-      "device_brand": deviceBrand as String,
-      "board": board as String,
-      "model": model as String,
+      "device": device ,
+      "device_Id": deviceId ,
+      "device_brand": deviceBrand ,
+      "board": board ,
+      "model": model,
     };
   }
 
-   factory Deviceinformation.fromFireStore(DocumentSnapshot doc)
+   factory Deviceinformation.fromFireStore(Map<String,dynamic> data)
    {
 
-     Map<String,dynamic>data=doc.data() as Map<String, dynamic>;
+    // Map<String,dynamic>data=doc.data() as Map<String, dynamic>;
      return Deviceinformation(
 
       device:data['device'],
@@ -34,7 +34,7 @@ class Deviceinformation {
 
      );
    }
-    String toString() {
-    return "Board: $board, device_Id: $deviceId, Device: $device, Model: $model, Brand: $deviceBrand";
-  }
+  //   String toString() {
+  //   return "Board: $board, device_Id: $deviceId, Device: $device, Model: $model, Brand: $deviceBrand";
+  // }
 }

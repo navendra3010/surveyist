@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:surveyist/fireStoreServiceForUser.dart/firestoreServiceUser.dart';
+import 'package:surveyist/userModel/deviceInfomodel.dart';
+import 'package:surveyist/userModel/deviceLocatioModel.dart';
 import 'package:surveyist/userModel/userProfilemodel.dart';
+import 'package:surveyist/userModel/userlogin.dart';
 
 class CommanProviderForUser extends ChangeNotifier
 {
@@ -28,10 +31,21 @@ Future<Userprofilemodel?> getUserInfo()async
    }
 //String? setId=userID;
 
-
-
+  
 
 }
+getLoginDetail()
+  {
+//     UserLoginModel mdl=UserLoginModel();
+//  print(mdl.toFireStore());
+//  Deviceinformation df=Deviceinformation();
+//  print(df.toFireStore());
+//  Devicelocation dl=Devicelocation();
+//  print(dl.toFireStore());
+ 
+
+  }
+
 
 
 }

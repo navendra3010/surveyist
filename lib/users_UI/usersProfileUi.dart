@@ -20,19 +20,19 @@ class UsersprofilePage extends StatefulWidget {
 class _UsersprofilePageState extends State<UsersprofilePage> {
   late Future<Userprofilemodel?> _userProfileFuture;
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchUserProfile();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _fetchUserProfile();
+  // }
 
-  void _fetchUserProfile() {
-    final authService =
-        Provider.of<CommanProviderForUser>(context, listen: false);
-    setState(() {
-      //_userProfileFuture = authService.getUserInfo();
-    });
-  }
+  // void _fetchUserProfile() {
+  //   final authService =
+  //       Provider.of<CommanProviderForUser>(context, listen: false);
+  //   setState(() {
+  //     //_userProfileFuture = authService.getUserInfo();
+  //   });
+  // }
 
   void _showAlertDialog(BuildContext context, String name) {
     showDialog(
@@ -70,18 +70,9 @@ class _UsersprofilePageState extends State<UsersprofilePage> {
   @override
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<CommanProviderForUser>(context);
-    // if(profileProvider.userProfile==null)
-    // {
-    //   profileProvider.getUserInfo();
-    // }
 
     return Scaffold(
-      body:
-          //  profileProvider.userProfile==null?Center(
-          //   child:CircularProgressIndicator(),
-          // ) :
-
-          Padding(
+      body: Padding(
         padding: EdgeInsets.all(8),
         child: Column(
           children: [
@@ -110,7 +101,7 @@ class _UsersprofilePageState extends State<UsersprofilePage> {
                         // Text('Login_ID: ${userProfile.userLoginId}', style: TextStyle(fontSize: 18)),
                         // Text('role: ${userProfile.role}', style: TextStyle(fontSize: 18)),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 1/ 100,
+                          height: MediaQuery.of(context).size.height * 1 / 100,
                         ),
                         Center(
                             child: Card(
@@ -384,7 +375,7 @@ class _UsersprofilePageState extends State<UsersprofilePage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100,
                         ),
-                         Container(
+                        Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -417,7 +408,7 @@ class _UsersprofilePageState extends State<UsersprofilePage> {
                             ],
                           ),
                         ),
-                          SizedBox(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100,
                         ),
                         Container(
@@ -427,7 +418,7 @@ class _UsersprofilePageState extends State<UsersprofilePage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100,
                         ),
-                         Container(
+                        Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -459,7 +450,8 @@ class _UsersprofilePageState extends State<UsersprofilePage> {
                               ),
                             ],
                           ),
-                        ),     SizedBox(
+                        ),
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100,
                         ),
                         Container(
@@ -468,7 +460,8 @@ class _UsersprofilePageState extends State<UsersprofilePage> {
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 2 / 100,
-                        ), Container(
+                        ),
+                        Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -500,7 +493,7 @@ class _UsersprofilePageState extends State<UsersprofilePage> {
                               ),
                             ],
                           ),
-                        ), 
+                        ),
                       ],
                     ),
                   );

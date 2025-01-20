@@ -32,268 +32,8 @@ class LoginProviderForUser extends ChangeNotifier {
   String? brand;
   String? board;
   String? address;
-
-  // Future<FirebaseAuth?> userLoginAuthantication(
-  //     BuildContext context, String email, String password) async {
-  //   int len = password.length;
-
-  // if (email.isEmpty || password.isEmpty) {
-  //   ShowTaostMessage.toastMessage(
-  //       context, Applanguage.entterEmailText[Applanguage.language]);
-  // } else if ((!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email))) {
-  //   ShowTaostMessage.toastMessage(
-  //       context, Applanguage.NotValidEmail[Applanguage.language]);
-  // } else if (password == "") {
-  //   ShowTaostMessage.toastMessage(
-  //       context, Applanguage.passwordNameessage[Applanguage.language]);
-  // } else if (len < 6) {
-  //   ShowTaostMessage.toastMessage(
-  //       context, Applanguage.passWordlength[Applanguage.language]);
-  // }
-  // else {
-  //   isloading = true;
-  //   notifyListeners();
-  //   monitorLocationService(context);
-  //   try {
-  //     await FirebaseauthenticationStatus.auth
-  //         .signInWithEmailAndPassword(email: email, password: password)
-  //         .then((value) {
-  //       // currentUserId = FirebaseauthenticationStatus.auth.currentUser?.uid;
-
-  //       //  print("user login id is ${userID}");
-  //       //var userID=FirebaseauthenticationStatus.auth.currentUser!.uid;
-  //       // String currentUserLoginId = FirebaseAuth.instance.currentUser!.uid;
-  //     });
-
-  //     if (FirebaseauthenticationStatus.auth != null) {
-  //       Position? position = await _determinePosition(context);
-  //       if (position != null) {
-  //         address = await _getAddressFromLatLng(
-  //             position.latitude, position.longitude);
-
-  //         await getDeviceinfo();
-  //         await _storeLoginDetails(
-  //           FirebaseauthenticationStatus.auth.currentUser!.uid,
-  //           address,
-  //           position.latitude,
-  //           position.longitude,
-  //           id,
-  //           device,
-  //           model,
-  //           brand,
-  //           board,
-  //         );
-
-  //         isloading = false;
-  //         notifyListeners();
-  //         return FirebaseauthenticationStatus.auth;
-  //       }
-  //     }
-
-  //     ///here i will add admin and user pages means role based login
-  //     String currentUserLoginId = FirebaseAuth.instance.currentUser!.uid;
-  //     //  String userRoleForLogin = await (currentUserLoginId);
-  //     String? userRoleForLogin = await fatchUserRole(currentUserLoginId);
-  //     notifyListeners();
-  //     ShowTaostMessage.toastMessage(context, userRoleForLogin!);
-
-  //     notifyListeners();
-  //     if (userRoleForLogin != null) {
-  //       if (userRoleForLogin == "admin") {
-  //         print("user role i found ${userRoleForLogin}");
-  //         Navigator.pushReplacement(context,
-  //             MaterialPageRoute(builder: (context) => AdminDashboardPage()));
-  //       } else {
-  //         Navigator.pushReplacement(context,
-  //             MaterialPageRoute(builder: (context) => UserDashBoardScreen()));
-  //       }
-  //     } else {
-  //       //here user noty found we will redirect login user push the messsage create user
-  //       //  Navigator.pushReplacement(context,
-  //       //       MaterialPageRoute(builder: (context) => UserDashBoardScreen()));
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     String message;
-
-  //     switch (e.code) {
-  //       case 'invalid-credential':
-  //       case 'wrong-password':
-  //       case 'invalid-email':
-  //         message = 'Invalid email or password. Please try again.';
-  //         break;
-  //       case 'user-not-found':
-  //         message = 'No account found. Would you like to sign up?';
-  //         break;
-  //       case 'too-many-requests':
-  //         message = 'Too many failed attempts. Try again later.';
-  //         break;
-  //       case 'user-disabled':
-  //         message = 'This account has been disabled.';
-  //         break;
-  //       default:
-  //         message = 'Login failed. Please check your details.';
-  //     }
-  //     isloading = false;
-  //     notifyListeners();
-  //     ShowTaostMessage.toastMessage(context, message);
-
-  //     return null;
-  //     // print("FirebaseAuthException: ${e.code}");
-  //   } catch (e) {
-  //     print("Unknown error: $e");
-  //     isloading = false;
-  //     notifyListeners();
-  //     ShowTaostMessage.toastMessage(
-  //       context,
-  //       'An unexpected error occurred. Please try again.',
-  //     );
-  //     return null;
-  //   }
-  // }
-
-  /// return null;
-  // }
-
-  // Future<String> getDeviceinfo() async {
-  //   DeviceInfo deviceInfo = await DeviceInfo.loginDeviceInfo();
-  //   board = deviceInfo.board;
-  //   id = deviceInfo.id;
-  //   device = deviceInfo.device;
-  //   model = deviceInfo.model;
-  //   brand = deviceInfo.brand;
-  //   return '${board},${id},${board},${model},${brand}';
-  // }
-
-  // Get Location
-  // Future<Position?> _determinePosition(BuildContext context) async {
-  //   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) return null;
-
-  //   LocationPermission permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       _showLocationDialog(context);
-  //       return null;
-  //     }
-  //   }
-
-  //   if (permission == LocationPermission.deniedForever) {
-  //     _showLocationDialog(context);
-  //     return null;
-  //   }
-
-  //   // return null;
-
-  //   return await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   );
-  // }
-
-  // Get Address from Lat/Lng
-  // Future<String> _getAddressFromLatLng(double lat, double lng) async {
-  //   List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
-  //   Placemark place = placemarks[0];
-  //   return "${place.street}, ${place.locality}, ${place.country}";
-  // }
-
-  // Future<void> _storeLoginDetails(
-  //     String uid,
-  //     String? address,
-  //     double latitude,
-  //     double longitude,
-  //     String? id,
-  //     String? device,
-  //     String? model,
-  //     String? brand,
-  //     String? board) async {
-  //   // print(uid);
-  //   // print(address);
-  //   // print(latitude);
-  //   // print(longitude);
-  //   // print(id);
-  //   // print(device);
-  //   // print(model);
-  //   // print(brand);
-  //   // print(board);
-  //   // print(uid);
-  //   //print(uid);
-  //   DateTime now = DateTime.now();
-  //   String formattedDate = DateFormat('dd/MM/yyyy a').format(now);
-  //   String formattedTime = DateFormat(' hh:mm:ss a').format(now);
-
-  //   String dateKey = DateFormat('dd-MM-yyyy').format(now); // Date as key
-  //   await FirebaseFirestore.instance
-  //       .collection("loginRecords")
-  //       .doc(uid)
-  //       .collection(dateKey)
-  //       .add({
-  //     "login_date": formattedDate,
-  //     "Login_time": formattedTime,
-  //     "latitude": latitude,
-  //     "longitude": longitude,
-  //     "address": address,
-  //     "device_Id": id,
-  //     "device_brand": brand,
-  //     "device": device,
-  //     "model": model,
-  //     "board": board,
-  //   });
-  // }
-
-  // Show Dialog to Enable Location
-  // void _showLocationDialog(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (BuildContext context) => AlertDialog(
-  //       title: Text('Location Access Required'),
-  //       content: Text(
-  //           'Location access is required to proceed. Please enable it in settings.'),
-  //       actions: [
-  //         TextButton(
-  //           onPressed: () async {
-  //             await Geolocator.openAppSettings();
-  //             Navigator.pop(context);
-  //           },
-  //           child: Text('Open App Settings'),
-  //         ),
-  //         TextButton(
-  //           onPressed: () {
-  //             Navigator.pop(context);
-  //           },
-  //           child: Text('Cancel'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // void monitorLocationService(BuildContext context) {
-  //   Geolocator.getServiceStatusStream().listen((ServiceStatus status) async {
-  //     if (status == ServiceStatus.enabled) {
-  //       Navigator.pop(context); // Close dialog if location is enabled
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text('Location enabled. Please login again.')),
-  //       );
-  //     }
-  //   });
-  // }
-
-  // Future<void> _storeLoginDetails(String uid, String? id, String? device,
-  //     String? model, String? brand, String? board) async {
-  //   print(uid);
-
-  //   print(id);
-  //   print(device);
-  //   print(model);
-  //   print(brand);
-  //   print(board);
-  //   // print(uid);
-  //   //print(uid);
-  // }
-
-//new login methods based on user role.................................
+  double? lat;
+  double? long;
 
   User? currentUser;
   String? userRole;
@@ -355,31 +95,34 @@ class LoginProviderForUser extends ChangeNotifier {
             );
           } else if (userRole == "user") {
             //here userLocation and device infomartion i will add
-            
+             getDeviceinfo();
             Position? position = await _determinePosition(context);
             if (position != null) {
-              Devicelocation dvlocation=Devicelocation();
-                dvlocation.latitude = position.latitude;
-             dvlocation.longitude = position.longitude;
-             dvlocation.address=await _getAddressFromLatLng(
-                position.latitude,position.longitude
-              );
-              notifyListeners();
-           // print(dvlocation.toFireStore());
-              
-            
-              
+              address = await _getAddressFromLatLng(
+                  position.latitude, position.longitude);
+              lat = position.latitude;
+              long = position.longitude;
+              // print("fathc location ---------------");
+              // print(address);
+              // print(lat);
+              // print(long);
+              // Devicelocation dl = await Devicelocation();
+              // dl.address = address;
+              // dl.latitude = lat;
+
+              // dl.longitude = long;
+              //  print(dl.toFireStore());
+             //  UserLoginModel ulml=UserLoginModel();
+               //ulml.location.add(Devicelocation(address: address,latitude: lat,longitude: long));
+             // print(ulml.toFireStore());
+              // print(dvlocation.toFireStore());
+
               // address = await _getAddressFromLatLng(
               //     position.latitude, position.longitude);
-                  //this funcation for Device info....................
-              await getDeviceinfo();
+              //this funcation for Device info....................
+            
+
               // right now iam commenting this for my tesing
-               
-                notifyListeners();
-              
-
-
-
 
               // storeLoginDetails(
               //   FirebaseauthenticationStatus.auth.currentUser!.uid,
@@ -391,44 +134,25 @@ class LoginProviderForUser extends ChangeNotifier {
               //   model,
               //   brand,
               //   board,
-              // );
-
+            
+             
+              print("get value==========================================");
               isloading = false;
+              
               notifyListeners();
             }
-               print("----------------------------------------------------------------------------------getuser details");
-                UserLoginModel userlomdl=UserLoginModel();
-                 var l=userlomdl.location;
-                 for (var element in l) {
-                  print(element.address);
-                  print(element.latitude);
-                  print(element.longitude);
-                   
-                 }
-                userlomdl.deviceinfo.forEach((device)=>print(device));
-                notifyListeners();
-               // print(userlomdl.toFireStore());
 
-            //  void getAllUserDetail()
-            //   {
-            //      UserLoginModel userlomdl=UserLoginModel();
-            //  //there is alll login detail----------------------------//------------------------------------------------------------------------------
-           
-            // Map<String, dynamic> firestoreData = userlomdl.toFireStore();
-            //print("Firestore Data: ${firestoreData.}");
-            //     // print(userlomdl.toFireStore());
-            //     // print(userlomdl.location);
-            //     print(userlomdl.deviceinfo);
-            //     notifyListeners();
-            //   }
-            ///here get unqiue profile funcation----------------------------
-            userID=currentUser!.uid;
+            // );
+ printoutPut();
+            isloading = false;
             notifyListeners();
-             
-             Provider.of<CommanProviderForUser>(context, listen: false).getUserId(userID);
+           
+            Provider.of<CommanProviderForUser>(context, listen: false)
+                .getUserId(userID);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => UserDashBoardScreen(userId:userID)),
+              MaterialPageRoute(
+                  builder: (context) => UserDashBoardScreen(userId: userID)),
             );
           }
         }
@@ -467,31 +191,50 @@ class LoginProviderForUser extends ChangeNotifier {
       }
     }
   }
- Deviceinformation dvinfo=Deviceinformation();
+
+  //future type string..................................
   Future<String> getDeviceinfo() async {
+    //this class for physicall devic info
 
+   
 
-    DeviceInfo deviceInfo = await DeviceInfo.loginDeviceInfo();
-    // board = deviceInfo.board;
-    // id = deviceInfo.id;
-    // device = deviceInfo.device;
-    // model = deviceInfo.model;
-    // brand = deviceInfo.brand;
-    //this is model class based information.........starting..................
-    dvinfo.board=deviceInfo.board;
-    dvinfo.device=deviceInfo.device;
-    dvinfo.deviceBrand=deviceInfo.brand;
-    dvinfo.model=deviceInfo.model;
-    dvinfo.deviceId=deviceInfo.id;
-   // print(dvinfo.toFireStore());
+    print(
+        "devide function working----------------------------------------------");
+    // dvinfo.board = deviceInfo.board;
+    // Deviceinformation dvinfo = Deviceinformation();
+    // dvinfo.device = deviceInfo.device;
+    // dvinfo.deviceBrand = deviceInfo.brand;
+    // dvinfo.model = deviceInfo.model;
+    // dvinfo.deviceId = deviceInfo.id;
+    //  board=dvinfo.board;
+     DeviceInfo deviceInfo = await DeviceInfo.loginDeviceInfo();
+
+    
+    model = deviceInfo.model;
+    brand = deviceInfo.brand;
+    board=deviceInfo.board;
+
+    device = deviceInfo.device;
+    id=deviceInfo.id;
+    print(" the given device info{$device,$model,$board,$id,$board}");
     notifyListeners();
-  //ending----------------------------------------------------------------
+
+    // Deviceinformation deviceData = Deviceinformation();
+
+    // deviceData.board = deviceInfo.board;
+    // deviceData.device = deviceInfo.device;
+    // deviceData.model = deviceInfo.model;
+    // deviceData.deviceBrand = deviceInfo.brand;
+    // deviceData.deviceId = deviceInfo.id;
+
+    //  UserLoginModel ulml2=UserLoginModel();
+    //  ulml2.deviceinfo.add(Deviceinformation(board: deviceInfo.board,device: deviceInfo.device,deviceBrand: deviceInfo.brand,model: deviceInfo.model,deviceId:  deviceInfo.id));
+    //  print(ulml2.toFireStore());
+
+    //ending----------------------------------------------------------------
     return '${board},${id},${board},${model},${brand}';
   }
 //location object-----------------------------
-
-
-
 
   Future<Position?> _determinePosition(BuildContext context) async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -516,7 +259,6 @@ class LoginProviderForUser extends ChangeNotifier {
     return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
-  
   }
 
   Future<String> _getAddressFromLatLng(double lat, double lng) async {
@@ -526,7 +268,6 @@ class LoginProviderForUser extends ChangeNotifier {
     //  dvlocation.longitude=lng;
     //  dvlocation.address=address;
     return "${place.street}, ${place.locality}, ${place.country}";
-    
   }
 
   ///-/ another way to store logiin detail in firstore
@@ -646,7 +387,27 @@ class LoginProviderForUser extends ChangeNotifier {
     });
   }
 
+  Future<void> printoutPut() async {
+    //UserLoginModel ul=UserLoginModel();
+     id;
+  print("$model, $brand,$board,$address,$lat,$long") ;
+  Devicelocation deviceData=Devicelocation();
+  deviceData.address=address;
+  deviceData.latitude=lat;
+  deviceData.longitude=long;
+  Deviceinformation infoData=Deviceinformation();
+  infoData.board=board;
+  infoData.device=device;
+  infoData.deviceId=id;
+  infoData.model=model;
+  infoData.board=brand;
+  UserLoginModel usermodeData=UserLoginModel(location:[deviceData],deviceinfo: [infoData]);
+  Map<String,dynamic>readData=usermodeData.toFireStore();
+  print(" this code is working====-------------------------------${readData}");
+
   
+
+  }
 }
 
 //n (PlatformException(ERROR_INVALID_CREDENTIAL, The supplied auth credential is incorrect, malformed or has expired.

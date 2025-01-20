@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:surveyist/userModel/deviceInfomodel.dart';
 import 'package:surveyist/userModel/deviceLocatioModel.dart';
-
-import 'deviceInfomodel.dart';
 
 class UserLoginModel {
   bool? loginStatus;
@@ -12,13 +10,12 @@ class UserLoginModel {
   String? logOutDate;
   String? logOutTime;
 
-  List<Devicelocation> location;
-  List<Deviceinformation> deviceinfo;
-
   String? userName;
   String? userEmpId;
   String? role;
   String? uniqueId;
+  List<Devicelocation> location;
+  List<Deviceinformation> deviceinfo;
 
   // List<Deviceinfo>deviceinfo;
 
@@ -29,9 +26,15 @@ class UserLoginModel {
     this.userName,
     this.role,
     this.uniqueId,
-    this.location = const [],
-    this.deviceinfo = const [],
-  });
+    this.logOutDate,
+    this.logOutTime,
+    this.loginStatus,
+    this.logOutStatus,
+    List<Deviceinformation>? deviceinfo,
+    List<Devicelocation>? location,
+  })  : location = location ?? [],
+        deviceinfo = deviceinfo ?? [];
+
   Map<String, dynamic> toFireStore() {
     return {
       "login_date": loginDate,
@@ -45,21 +48,35 @@ class UserLoginModel {
       "role": role,
       "unique_Id": uniqueId,
       "location": location.map((loc) => loc.toFireStore()).toList(),
-    "deviceinfo": deviceinfo.map((loc) => loc.toFireStore()).toList(),
+      "deviceinfo": deviceinfo.map((info) => info.toFireStore()).toList(),
     };
   }
 
   factory UserLoginModel.fromFireStore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return UserLoginModel(
-      loginDate: data?['login_date'],
-      loginTime: data?['Login_time'],
+      loginDate: data['login_date'] ?? " ",
+      loginTime: data?['Login_time'] ?? " ",
+      logOutDate: data?['logOut_date'] ?? " ",
+      logOutTime: data['LogOut_time'] ?? " ",
+      loginStatus: data['Login_status'] ?? "",
+      logOutStatus: data['LogOut_status'] ?? '',
+      userName: data['full_name'] ?? "",
+      uniqueId: data['unique_Id'] ?? "",
+      role: data['role'] ?? "",
+      userEmpId: data['unique_Id'] ?? '',
       location: data['location'] != null
           ? (data['location'] as List<dynamic>)
-              .map((loc) => Devicelocation.fromFireStore(loc as DocumentSnapshot))
+              .map((loc) =>
+                  Devicelocation.fromFireStore(loc as Map<String, dynamic>))
               .toList()
           : [],
-          deviceinfo: data['deviceinfo']!=null? (data['deviceinfo'] as List<dynamic>).map((loc)=>Deviceinformation.fromFireStore(loc as DocumentSnapshot)).toList():[],
+      deviceinfo: data['deviceinfo'] != null
+          ? (data['deviceinfo'] as List<dynamic>)
+              .map((info) =>
+                  Deviceinformation.fromFireStore(info as Map<String, dynamic>))
+              .toList()
+          : [],
     );
   }
 }

@@ -61,6 +61,12 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
       "time": "9.40"
     },
   ];
+  void initState()
+  {
+    super.initState();
+     Provider.of<CommanProviderForUser>(context, listen: false)
+        .getLoginDetail();
+  }
 
   @override
   Widget build(BuildContext context) {

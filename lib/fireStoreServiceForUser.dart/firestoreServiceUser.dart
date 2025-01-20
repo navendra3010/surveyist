@@ -10,7 +10,7 @@ class FireStoreSerivcesForUser {
       DocumentSnapshot snapshot =
           await _firestore.collection("allusers").doc(userid).get();
       if (snapshot.exists) {
-        print(snapshot.data());
+       // print(snapshot.data());
         return Userprofilemodel.FromFireStore(snapshot);
       }
       return null;
