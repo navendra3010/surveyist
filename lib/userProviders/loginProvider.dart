@@ -34,6 +34,9 @@ class LoginProviderForUser extends ChangeNotifier {
   String? address;
   double? lat;
   double? long;
+  String? userName;
+  String? employeId;
+  String? unique_Id;
 
   User? currentUser;
   String? userRole;
@@ -56,6 +59,15 @@ class LoginProviderForUser extends ChangeNotifier {
         .doc(currentUserLoginId)
         .get();
     if (documentSnapshot.exists) {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      userName = data['full_name'];
+      unique_Id = data['unique_Id'];
+      employeId = data['employeId'];
+      print("user details--------------------------");
+      print("{$userName,$employeId,$unique_Id,}");
+
+      print(documentSnapshot.data());
       return documentSnapshot['role'];
     }
     return null;
@@ -83,6 +95,9 @@ class LoginProviderForUser extends ChangeNotifier {
         notifyListeners();
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
+        String getcurrentUserId = FirebaseAuth.instance.currentUser!.uid;
+        id = getcurrentUserId;
+        notifyListeners();
 
         currentUser = userCredential.user;
         if (currentUser != null) {
@@ -95,7 +110,8 @@ class LoginProviderForUser extends ChangeNotifier {
             );
           } else if (userRole == "user") {
             //here userLocation and device infomartion i will add
-             getDeviceinfo();
+
+            getDeviceinfo();
             Position? position = await _determinePosition(context);
             if (position != null) {
               address = await _getAddressFromLatLng(
@@ -112,15 +128,14 @@ class LoginProviderForUser extends ChangeNotifier {
 
               // dl.longitude = long;
               //  print(dl.toFireStore());
-             //  UserLoginModel ulml=UserLoginModel();
-               //ulml.location.add(Devicelocation(address: address,latitude: lat,longitude: long));
-             // print(ulml.toFireStore());
+              //  UserLoginModel ulml=UserLoginModel();
+              //ulml.location.add(Devicelocation(address: address,latitude: lat,longitude: long));
+              // print(ulml.toFireStore());
               // print(dvlocation.toFireStore());
 
               // address = await _getAddressFromLatLng(
               //     position.latitude, position.longitude);
               //this funcation for Device info....................
-            
 
               // right now iam commenting this for my tesing
 
@@ -134,25 +149,28 @@ class LoginProviderForUser extends ChangeNotifier {
               //   model,
               //   brand,
               //   board,
-            
-             
+              storeLoginDetailAsperUserRecord(
+                  FirebaseauthenticationStatus.auth.currentUser!.uid);
+
               print("get value==========================================");
               isloading = false;
-              
+
               notifyListeners();
             }
 
             // );
- printoutPut();
+            //this function basicallu used to store login details.....
+
             isloading = false;
             notifyListeners();
-           
+
             Provider.of<CommanProviderForUser>(context, listen: false)
-                .getUserId(userID);
+                .getUserId(currentUser!.uid);
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => UserDashBoardScreen(userId: userID)),
+                  builder: (context) =>
+                      UserDashBoardScreen(userId: currentUser!.uid)),
             );
           }
         }
@@ -196,40 +214,20 @@ class LoginProviderForUser extends ChangeNotifier {
   Future<String> getDeviceinfo() async {
     //this class for physicall devic info
 
-   
-
     print(
         "devide function working----------------------------------------------");
-    // dvinfo.board = deviceInfo.board;
-    // Deviceinformation dvinfo = Deviceinformation();
-    // dvinfo.device = deviceInfo.device;
-    // dvinfo.deviceBrand = deviceInfo.brand;
-    // dvinfo.model = deviceInfo.model;
-    // dvinfo.deviceId = deviceInfo.id;
-    //  board=dvinfo.board;
-     DeviceInfo deviceInfo = await DeviceInfo.loginDeviceInfo();
 
-    
+    DeviceInfo deviceInfo = await DeviceInfo.loginDeviceInfo();
+
     model = deviceInfo.model;
     brand = deviceInfo.brand;
-    board=deviceInfo.board;
+    board = deviceInfo.board;
 
     device = deviceInfo.device;
-    id=deviceInfo.id;
-    print(" the given device info{$device,$model,$board,$id,$board}");
+    id = deviceInfo.id;
+    brand = deviceInfo.brand;
+    print(" the given device info{$device,$model,$board,$id,$board,$brand}");
     notifyListeners();
-
-    // Deviceinformation deviceData = Deviceinformation();
-
-    // deviceData.board = deviceInfo.board;
-    // deviceData.device = deviceInfo.device;
-    // deviceData.model = deviceInfo.model;
-    // deviceData.deviceBrand = deviceInfo.brand;
-    // deviceData.deviceId = deviceInfo.id;
-
-    //  UserLoginModel ulml2=UserLoginModel();
-    //  ulml2.deviceinfo.add(Deviceinformation(board: deviceInfo.board,device: deviceInfo.device,deviceBrand: deviceInfo.brand,model: deviceInfo.model,deviceId:  deviceInfo.id));
-    //  print(ulml2.toFireStore());
 
     //ending----------------------------------------------------------------
     return '${board},${id},${board},${model},${brand}';
@@ -272,82 +270,83 @@ class LoginProviderForUser extends ChangeNotifier {
 
   ///-/ another way to store logiin detail in firstore
 //=--------------------------------------------------------------------------------------//
-  Future<void> saveloginDetails(
-      {required String userId,
-      required Map<String, dynamic> loginDetails,
-      required String daykey}) async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    try {
-      DocumentReference userDoc =
-          firestore.collection('usersloginRecords').doc(userId);
 
-      // Check if the user's document exists
-      DocumentSnapshot userSnapshot = await userDoc.get();
+  // Future<void> saveloginDetails(
+  //     {required String userId,
+  //     required Map<String, dynamic> loginDetails,
+  //     required String daykey}) async {
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   try {
+  //     DocumentReference userDoc =
+  //         firestore.collection('usersloginRecords').doc(userId);
 
-      if (!userSnapshot.exists) {
-        // Create the user's document if it doesn't exist
-        await userDoc.set({
-          'created_at': DateTime.now().toIso8601String(),
-        });
-        print("Parent document for userId $userId created.");
-      }
+  //     // Check if the user's document exists
+  //     DocumentSnapshot userSnapshot = await userDoc.get();
 
-      // Reference to the date-specific document
-      DocumentReference dateDoc = userDoc.collection('loginDates').doc(daykey);
+  //     if (!userSnapshot.exists) {
+  //       // Create the user's document if it doesn't exist
+  //       await userDoc.set({
+  //         'created_at': DateTime.now().toIso8601String(),
+  //       });
+  //       print("Parent document for userId $userId created.");
+  //     }
 
-      // Check if the date-specific document exists
-      DocumentSnapshot dateSnapshot = await dateDoc.get();
+  //     // Reference to the date-specific document
+  //     DocumentReference dateDoc = userDoc.collection('loginDates').doc(daykey);
 
-      if (!dateSnapshot.exists) {
-        // Create the date document if it doesn't exist
-        await dateDoc.set({
-          'date': daykey,
-          'created_at': DateTime.now().toIso8601String(),
-        });
-        print("Date document for $daykey created under userId $userId.");
-      }
+  //     // Check if the date-specific document exists
+  //     DocumentSnapshot dateSnapshot = await dateDoc.get();
 
-      // Add the login details to the logins subcollection
-      await dateDoc.collection('logins').add(loginDetails);
+  //     if (!dateSnapshot.exists) {
+  //       // Create the date document if it doesn't exist
+  //       await dateDoc.set({
+  //         'date': daykey,
+  //         'created_at': DateTime.now().toIso8601String(),
+  //       });
+  //       print("Date document for $daykey created under userId $userId.");
+  //     }
 
-      print("Login details for $daykey saved successfully for userId $userId.");
-    } catch (e) {
-      print("Error saving login details: $e");
-    }
-  }
+  //     // Add the login details to the logins subcollection
+  //     await dateDoc.collection('logins').add(loginDetails);
 
-  void storeLoginDetails(
-      String uid,
-      String? address,
-      double latitude,
-      double longitude,
-      String? id,
-      String? device,
-      String? model,
-      String? brand,
-      String? board) async {
-    String userId = uid; // Replace with actual user ID
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('dd/MM/yyyy a').format(now);
-    String formattedTime = DateFormat(' hh:mm:ss a').format(now);
+  //     print("Login details for $daykey saved successfully for userId $userId.");
+  //   } catch (e) {
+  //     print("Error saving login details: $e");
+  //   }
+  // }
 
-    String dateKey = DateFormat('dd-MM-yyyy').format(now);
-    Map<String, dynamic> loginDetails = {
-      'login_date': formattedDate,
-      'Login_time': formattedTime,
-      'latitude': latitude,
-      'longitude': longitude,
-      'address': address,
-      'device_Id': id,
-      'device_brand': brand,
-      'device': device,
-      'model': model,
-      'board': board,
-    };
+  // void storeLoginDetails(
+  //     String uid,
+  //     String? address,
+  //     double latitude,
+  //     double longitude,
+  //     String? id,
+  //     String? device,
+  //     String? model,
+  //     String? brand,
+  //     String? board) async {
+  //   String userId = uid; // Replace with actual user ID
+  //   DateTime now = DateTime.now();
+  //   String formattedDate = DateFormat('dd/MM/yyyy a').format(now);
+  //   String formattedTime = DateFormat(' hh:mm:ss a').format(now);
 
-    await saveloginDetails(
-        userId: userId, loginDetails: loginDetails, daykey: dateKey);
-  }
+  //   String dateKey = DateFormat('dd-MM-yyyy').format(now);
+  //   Map<String, dynamic> loginDetails = {
+  //     'login_date': formattedDate,
+  //     'Login_time': formattedTime,
+  //     'latitude': latitude,
+  //     'longitude': longitude,
+  //     'address': address,
+  //     'device_Id': id,
+  //     'device_brand': brand,
+  //     'device': device,
+  //     'model': model,
+  //     'board': board,
+  //   };
+
+  //   await saveloginDetails(
+  //       userId: userId, loginDetails: loginDetails, daykey: dateKey);
+  // }
 
   void _showLocationDialog(BuildContext context) {
     showDialog(
@@ -387,26 +386,100 @@ class LoginProviderForUser extends ChangeNotifier {
     });
   }
 
-  Future<void> printoutPut() async {
+  // Future<void> finalStoreLoginData(
+  //     {required userID,
+  //     required Map<String, dynamic> userData,
+  //     required String dateKey}) async {
+  //   DateTime now = DateTime.now();
+  //   String formattedDate = DateFormat('dd/MM/yyyy').format(now);
+
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   try {
+  //     final docRef=firestore.collection("userLoginRecordPerDay").doc(userID).collection('loginDates').doc(dateKey);
+  //     await docRef.set({userData});
+
+  //   } catch (e) {
+  //     print("Error saving login details: $e");
+  //   }
+  // }
+
+  Future<void> storeLoginDetailAsperUserRecord(id) async {
     //UserLoginModel ul=UserLoginModel();
-     id;
-  print("$model, $brand,$board,$address,$lat,$long") ;
-  Devicelocation deviceData=Devicelocation();
-  deviceData.address=address;
-  deviceData.latitude=lat;
-  deviceData.longitude=long;
-  Deviceinformation infoData=Deviceinformation();
-  infoData.board=board;
-  infoData.device=device;
-  infoData.deviceId=id;
-  infoData.model=model;
-  infoData.board=brand;
-  UserLoginModel usermodeData=UserLoginModel(location:[deviceData],deviceinfo: [infoData]);
-  Map<String,dynamic>readData=usermodeData.toFireStore();
-  print(" this code is working====-------------------------------${readData}");
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd/MM/yyyy a').format(now);
+    String formattedTime = DateFormat(' hh:mm:ss a').format(now);
+    String dateKey = DateFormat('dd-MM-yyyy').format(now);
 
-  
+    //  print("$model, $brand,$board,$address,$lat,$long");
+    Devicelocation deviceData = Devicelocation();
+    deviceData.address = address;
+    deviceData.latitude = lat;
+    deviceData.longitude = long;
+    Deviceinformation infoData = Deviceinformation();
+    infoData.board = board;
+    infoData.device = device;
+    infoData.deviceId = id;
+    infoData.model = model;
+    infoData.deviceBrand = brand;
+    UserLoginModel usermodeData = UserLoginModel(
+      location: [deviceData],
+      deviceinfo: [infoData],
+      userName: userName,
+      uniqueId: unique_Id,
+      userEmpId: employeId,
+      loginTime: formattedTime,
+      loginDate: formattedDate,
+      loginStatus: true,
+    );
+    Map<String,dynamic>readData=usermodeData.toFireStore();
 
+    await createCollection(
+        id: id, dateKey: dateKey, data: readData);
+  }
+
+  Future<void> createCollection(
+      {required id,
+      required String dateKey,
+      required Map<String, dynamic> data}) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    try {
+      // final docRef = await firestore
+      //     .collection("userLoginRecordPerDay")
+      //     .doc(id)
+      //     .collection('loginDates')
+      //     .doc(dateKey);
+      // await docRef.set(data);
+
+      DocumentReference docRef=firestore.collection("userLoginRecordPerDay").doc(id);
+
+      DocumentSnapshot userSnapshot= await docRef.get();
+
+      if(!userSnapshot.exists)
+      {
+        await docRef.set({
+          'createdAT':DateTime.now(),
+        });
+        print("parent documnet created succesfully");
+      }
+
+
+      DocumentReference dateDoc=docRef.collection("loginDates").doc(dateKey);
+      DocumentSnapshot userDateSnapshot= await dateDoc.get();
+      if(!userDateSnapshot.exists)
+      {
+        await dateDoc.set({
+         
+           'createdAT':DateTime.now()
+        });
+        print("another parent document");
+      }
+      await dateDoc.collection("logins").add(data);
+      
+
+       
+    } catch (e) {
+      print("Error saving login details: $e");
+    }
   }
 }
 

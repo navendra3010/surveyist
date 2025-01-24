@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:surveyist/UI_for_all/loginUI.dart';
 import 'package:surveyist/admin_uI/adminDashboard.dart';
 import 'package:surveyist/userProviders/commanProvider.dart';
 import 'package:surveyist/users_UI/taskDetail.dart';
@@ -22,8 +23,6 @@ class UserDashBoardScreen extends StatefulWidget {
 }
 
 class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
-
-  
   List<dynamic> taskList = <dynamic>[
     {
       "TaskName": "complete all measurment and submit distance with elecation",
@@ -61,17 +60,18 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
       "time": "9.40"
     },
   ];
-  void initState()
-  {
-    super.initState();
-     Provider.of<CommanProviderForUser>(context, listen: false)
-        .getLoginDetail();
-  }
+  // void initState()
+  // {
+  //   super.initState();
+  //    Provider.of<CommanProviderForUser>(context, listen: false)
+  //       .getLoginDetail();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final providerComman= Provider.of<CommanProviderForUser>(context ,listen: false);
-    
+    final providerComman =
+        Provider.of<CommanProviderForUser>(context, listen: false);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(1),
@@ -83,16 +83,17 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
               height: MediaQuery.of(context).size.height * 3 / 100,
             ),
             Container(
-              child: Row(
-                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text("Login_Time", style: CustomText.nameOfTextStyle),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 5 / 100,
-                  ),
-                  Text("9.40", style: CustomText.nameOfTextStyle),
-                ],
-              ),
+              height: MediaQuery.of(context).size.height * 4 / 100,
+              width: MediaQuery.of(context).size.width * 20 / 100,
+              decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 228, 153, 41),
+                  borderRadius: BorderRadius.all(Radius.circular(80))),
+              child: TextButton(
+                  onPressed: () {
+
+
+                   providerComman.logout();
+                  }, child: Center(child: Text("Log_out"))),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 3 / 100,
@@ -441,18 +442,34 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 6 / 100,
             ),
-            
-           Center(
-          child:TextButton(onPressed: ()
-          {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AdminDashboardPage(),));
-          }, child:Text("go_admin_panel")),
-           ),
+            Center(
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AdminDashboardPage(),
+                        ));
+                  },
+                  child: Text("go_admin_panel")),
+            ),
+            Center(
+              child: TextButton(
+                  onPressed: () {
+                    providerComman.getLogoutprovider();
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreenForAll(),
+                        ));
+                  },
+                  child: Text("LogOut")),
+            )
           ],
         ),
       ),
-      bottomNavigationBar:
-          footerUiForUsers(notificationCount: 0, selectMenu2: ButtomMenu2.userHome),
+      bottomNavigationBar: footerUiForUsers(
+          notificationCount: 0, selectMenu2: ButtomMenu2.userHome),
     );
   }
 }
