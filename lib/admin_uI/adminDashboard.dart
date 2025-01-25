@@ -122,7 +122,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                         final login_time = data['login_time'] ?? 'no data';
                         List<dynamic> loc = data["location"] ?? [];
                         String add = loc[0]["address"];
-                        String addtrim = add.substring(5, 20);
+                        String addtrim = add.substring(5, 15);
                        
                         return Container(
                           height: MediaQuery.of(context).size.height * 7 / 100,

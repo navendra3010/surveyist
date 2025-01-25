@@ -92,7 +92,7 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
                   onPressed: () {
 
 
-                   providerComman.logout();
+                   providerComman.userLogOut(context);
                   }, child: Center(child: Text("Log_out"))),
             ),
             SizedBox(
@@ -464,6 +464,14 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
                         ));
                   },
                   child: Text("LogOut")),
+            ),
+             Center(
+              child: TextButton(
+                  onPressed: () {
+                    providerComman.getUserInfo();
+                  
+                  },
+                  child: Text("getId")),
             )
           ],
         ),
