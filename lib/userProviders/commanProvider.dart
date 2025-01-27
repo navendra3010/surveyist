@@ -8,7 +8,6 @@ import 'package:surveyist/users_UI/userDashboard.dart';
 
 class CommanProviderForUser extends ChangeNotifier {
   FireStoreSerivcesForUser fires = FireStoreSerivcesForUser();
-  
 
   String? userID;
   bool isLogOut = false;
@@ -25,26 +24,15 @@ class CommanProviderForUser extends ChangeNotifier {
 
   ///fatch user prfile using provider
   Future<Userprofilemodel?> getUserInfo() async {
-    
-     SharedPreferences sff = await SharedPreferences.getInstance();
-     String? profileID= await sff.getString('userId');
-     if(profileID!=null)
-     {
-      print("got profile id      ${profileID}");
-      return  await fires.getUserProfile(profileID);
-     }
-     else
-     {
+    SharedPreferences sff = await SharedPreferences.getInstance();
+    String? profileID = await sff.getString('userId');
+    if (profileID != null) {
+     // print("got profile id      ${profileID}");
+      return await fires.getUserProfile(profileID);
+    } else {
       print("not getting profile id");
-     }
-     return null;
-    
-  }
-/// other logot function
-  Future<void> getLogoutprovider() async {
-    await fires.logout(userID);
-    print(userID);
-    notifyListeners();
+    }
+    return null;
   }
 
 // autologin...................
@@ -71,36 +59,16 @@ class CommanProviderForUser extends ChangeNotifier {
     }
     isAutologin = false;
     notifyListeners();
-    // final user = auth.currentUser;
-    // if (user != null) {
-    //   getId = auth.currentUser!.uid;
-    // }
-
-    // isAutologin = true;
-    // notifyListeners();
-    // if (user != null) {
-    //   Navigator.pushReplacement(
-    //       context,
-    //       MaterialPageRoute(
-    //           builder: (context) => UserDashBoardScreen(
-    //                 userId: getId,
-    //               )));
-    // } else {
-    //   Future.delayed(
-    //       Duration(seconds: 3),
-    //       () => Navigator.pushReplacement(context,
-    //           MaterialPageRoute(builder: (context) => LoginScreenForAll())));
-    //   isAutologin = false;
-    //   notifyListeners();
-    // }
-    // isAutologin = false;
-    // notifyListeners();
   }
 
+  //logout user per day...........................
   Future<void> userLogOut(context) async {
-    await FirebaseAuth.instance.signOut();
+    // await FirebaseAuth.instance.signOut();
 
     SharedPreferences sf = await SharedPreferences.getInstance();
+
+    fires.logOutService();
+    notifyListeners();
 
     bool? getvaluefromSf = await sf.remove("userId");
     if (getvaluefromSf == true) {
@@ -114,13 +82,7 @@ class CommanProviderForUser extends ChangeNotifier {
         context, MaterialPageRoute(builder: (context) => LoginScreenForAll()));
   }
 
-//user log_Out....... from another way fire store  process
-  Future<void> logout() async {
-    fires.logOutService(userID);
-    isLogOut = true;
-    notifyListeners();
-  }
-/// this function basically  can be user  to check user id exits in shaarred prefrenes or not
+  /// this function basically  can be user  to check user id exits in shaarred prefrenes or not
   Future<void> checkSharredprerence() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     String? getvalue = sf.getString('userId');
@@ -131,4 +93,7 @@ class CommanProviderForUser extends ChangeNotifier {
       print("not get value=======================");
     }
   }
+
+//show on ui user login time and current time and working hour
+  Future<void> showLoginTimeForUser() async {}
 }

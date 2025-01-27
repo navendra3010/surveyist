@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:surveyist/main.dart';
 import 'package:surveyist/userModel/userProfilemodel.dart';
 import 'package:surveyist/userModel/userlogin.dart';
@@ -24,60 +28,65 @@ class FireStoreSerivcesForUser {
     }
   }
 
-  //logout fire store funcation
-  Future<void> logout(userID) async {
+  //userLog Out firestore service.....................\
+  Future<void> logOutService() async {
     DateTime now = DateTime.now();
 
     String formattedDate = DateFormat('dd/MM/yyyy a').format(now);
     String formattedTime = DateFormat(' hh:mm:ss a').format(now);
     String dateKey = DateFormat('dd-MM-yyyy').format(now);
-
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    String? uId = await sf.getString("userId");
     try {
-      final updateDoc = await
-          _firestore.collection('userLoginRecordPerDay').doc(dateKey);
+      // QuerySnapshot snapshot = await _firestore
+      //     .collection("userLoginRecordPerDay")
+      //     .doc(uId)
+      //     .collection("loginDates")
+      //     .doc("24-01-2025")
+      //     .collection("logins")
+      //     .get();
 
-      final snapshot = await updateDoc.get();
+      //     //print(snapshot.docs);
+      //   for (var element in snapshot.docs) {
+      //     print(element.data());
 
-      if (snapshot.exists) {
-        final data = snapshot.data() as Map<String, dynamic>?;
+      //   }
+       await FirebaseAuth.instance.signOut();
 
-        if (data != null &&
-            data['logins'] != null &&
-            data['logins'][userID] != null) {
-          await updateDoc.update({
-            'logins.$userID.logOut_time': formattedTime,
-            'logins.$userID.logOut_date': formattedDate,
-            'logins.$userID.logOut_status': true,
-          });
-        }
-        else
-        {
-          print("userlogin does not exits");
-        }
+
+      final cr = await _firestore
+          .collection("userLoginRecordPerDay")
+          .doc(uId)
+          .collection("loginDates")
+          .doc("25-01-2025")
+          .collection("logins")
+          .where("LogOut_status", isNull: true)
+          //.orderBy('')
+          .limit(1)
+          .get();
+
+      if (cr.docs.isNotEmpty) {
+        // print(cr.docs);
+        final loginDoc = cr.docs.first;
+        await _firestore
+            .collection("userLoginRecordPerDay")
+            .doc(uId)
+            .collection("loginDates")
+            .doc("25-01-2025")
+            .collection("logins")
+            .doc(loginDoc.id)
+            .update({
+          'LogOut_time': formattedTime,
+          'LogOut_status': true,
+        });
+
+
+        print("logout status hans been updated${loginDoc.id}");
+      } else {
+        print("data laoded fail");
       }
     } catch (e) {
       print(e);
     }
   }
-  //userLog Out firestore service.....................\
-  Future<void>logOutService(String? userID)async
-  {
-     DateTime now = DateTime.now();
-
-    String formattedDate = DateFormat('dd/MM/yyyy a').format(now);
-    String formattedTime = DateFormat(' hh:mm:ss a').format(now);
-    String dateKey = DateFormat('dd-MM-yyyy').format(now);
-    final docUpdate=await _firestore.collection("userLoginRecordPerDay").doc(userID).update({
-      "LogOut_time":formattedTime,
-      "LogOut_status":false,
-      "logOut_date":formattedDate,
-    });
-    print("update statstus");
-    
-   // print(docUpdate.);
-    
-  }
-
-
-  
 }

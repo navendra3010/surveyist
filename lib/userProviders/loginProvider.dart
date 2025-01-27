@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:surveyist/admin_uI/adminDashboard.dart';
 import 'package:surveyist/controller/fireStoreCollection.dart';
+import 'package:surveyist/fireStoreServiceForUser.dart/firestoreServiceUser.dart';
 import 'package:surveyist/localization/deviceInformation.dart';
 import 'package:surveyist/localization/location.dart';
 import 'package:surveyist/repositry/firebaseAuthentication.dart';
@@ -91,7 +92,7 @@ class LoginProviderForUser extends ChangeNotifier {
           context, Applanguage.passWordlength[Applanguage.language]);
     } else {
       try {
-        //isloading = false;
+        isloading = true;
         //monitorLocationService(context);
         notifyListeners();
         UserCredential userCredential = await FirebaseAuth.instance
@@ -108,41 +109,48 @@ class LoginProviderForUser extends ChangeNotifier {
           userRole = await fatchUserRole(currentUser!.uid);
 
           if (userRole == "admin") {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => AdminDashboardPage()),
             );
           } else if (userRole == "user") {
-            //here userLocation and device infomartion i will add
+            //checking here login status user already loggeed or not if log need logout..........
 
-            getDeviceinfo();
-            Position? position = await _determinePosition(context);
-            if (position != null) {
-              address = await _getAddressFromLatLng(
-                  position.latitude, position.longitude);
-              lat = position.latitude;
-              long = position.longitude;
+            bool? status= await checkLoginStatus(context);
+            if(status=true)
+            {
+              print("yes you can log in another session");
 
-              // address = await _getAddressFromLatLng(
-              //     position.latitude, position.longitude);
-              //this funcation for Device info....................
-
-              print("get value==========================================");
-                Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      UserDashBoardScreen(userId: currentUser!.uid)),
-            );
-              isloading = false;
-
-              notifyListeners();
             }
+            else
+            {print(" you cannot log in another session");
 
+            }
             isloading = false;
             notifyListeners();
 
-          
+            // await getDeviceinfo();
+            // Position? position = await _determinePosition(context);
+            // if (position != null) {
+            //   address = await _getAddressFromLatLng(
+            //       position.latitude, position.longitude);
+            //   lat = position.latitude;
+            //   long = position.longitude;
+
+            //   // address = await _getAddressFromLatLng(
+            //   //     position.latitude, position.longitude);
+            //   //this funcation for Device info....................
+
+            //   print("get value==========================================");
+            // }
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(
+            //       builder: (context) =>
+            //           UserDashBoardScreen(userId: currentUser!.uid)),
+            // );
+            // isloading = false;
+            // notifyListeners();
           }
         }
       } on FirebaseAuthException catch (e) {
@@ -185,9 +193,6 @@ class LoginProviderForUser extends ChangeNotifier {
   Future<String> getDeviceinfo() async {
     //this class for physicall devic info
 
-    print(
-        "devide function working----------------------------------------------");
-
     DeviceInfo deviceInfo = await DeviceInfo.loginDeviceInfo();
 
     model = deviceInfo.model;
@@ -203,33 +208,35 @@ class LoginProviderForUser extends ChangeNotifier {
     //ending----------------------------------------------------------------
     return '${board},${id},${board},${model},${brand}';
   }
+
 //location object-----------------------------
-
+// function for location and location is mandatory if permissin not alloow user not move futher......
   Future<Position?> _determinePosition(BuildContext context) async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) return null;
-
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
+    //-----------------------
+    while (true) {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
         _showLocationDialog(context);
-        return null;
+        // return null;
       }
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          _showLocationDialog(context);
+          continue;
+        }
+      }
+      if (permission == LocationPermission.deniedForever) {
+        // _showLocationDialog(context);
+        _showLocationDialog(context);
+
+        continue;
+      }
+      return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
     }
-
-    if (permission == LocationPermission.deniedForever) {
-      // _showLocationDialog(context);
-      monitorLocationService(context);
-
-      return null;
-    }
-
-    // return null;
-
-    return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
   }
 
   Future<String> _getAddressFromLatLng(double lat, double lng) async {
@@ -266,16 +273,16 @@ class LoginProviderForUser extends ChangeNotifier {
     );
   }
 
-  void monitorLocationService(BuildContext context) {
-    Geolocator.getServiceStatusStream().listen((ServiceStatus status) async {
-      if (status == ServiceStatus.enabled) {
-        Navigator.pop(context); // Close dialog if location is enabled
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Location enabled. Please login again.')),
-        );
-      }
-    });
-  }
+  // void monitorLocationService(BuildContext context) {
+  //   Geolocator.getServiceStatusStream().listen((ServiceStatus status) async {
+  //     if (status == ServiceStatus.enabled) {
+  //       Navigator.pop(context); // Close dialog if location is enabled
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('Location enabled. Please login again.')),
+  //       );
+  //     }
+  //   });
+  // }
 
   Future<void> storeLoginDetailAsperUserRecord(id) async {
     //UserLoginModel ul=UserLoginModel();
@@ -339,6 +346,71 @@ class LoginProviderForUser extends ChangeNotifier {
       print("Error saving login details: $e");
     }
   }
+
+   Future<bool?> checkLoginStatus(BuildContext context) async {
+    DateTime now = DateTime.now();
+
+    String formattedDate = DateFormat('dd/MM/yyyy a').format(now);
+    String formattedTime = DateFormat(' hh:mm:ss a').format(now);
+    String dateKey = DateFormat('dd-MM-yyyy').format(now);
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    String? checkId = sf.getString("userId");
+    final checkStatus = await FirebaseFirestore.instance
+        .collection("userLoginRecordPerDay")
+        .doc(checkId)
+        .collection("loginDates")
+        .doc("25-01-2025")
+        .collection('logins')
+        // .orderBy(formattedTime)
+        // .limit(1)
+        .get();
+    if (checkStatus.docs.isNotEmpty) {
+      final lastLogin = checkStatus.docs.first.data();
+      //print(checkStatus.docs.first.data());
+      if (lastLogin['LogOut_status'] == false) {
+        print("Loout frist then login next session");
+        print(lastLogin["LogOutStatus"]);
+       
+         showLogOutBox(context);
+         return true;
+       
+      } else {
+            return false;
+
+        
+      }
+    } else {
+      print("already logout");
+    }
+  }
+  ///this alert box for logout prompt 
+   showLogOutBox(BuildContext context) {
+          Widget cancelButton = TextButton(
+            onPressed: () {
+               Navigator.of(context).pop();
+            },
+            child: Text("no"),
+          );
+          Widget contineuButton = TextButton(
+            onPressed: () {
+               FireStoreSerivcesForUser f=FireStoreSerivcesForUser();
+                f.logOutService();
+
+              Navigator.of(context).pop();
+            },
+            child: Text("yes"),
+          );
+
+          AlertDialog alert = AlertDialog(
+            title: Text("LOG_OUT"),
+            content: Text(
+                "would you like  to log_out previous session or continue "),
+            actions: [cancelButton, contineuButton],
+          );
+          showDialog(context: context, builder:(BuildContext context){
+            return alert;
+          });
+        }
 }
 
 //n (PlatformException(ERROR_INVALID_CREDENTIAL, The supplied auth credential is incorrect, malformed or has expired.

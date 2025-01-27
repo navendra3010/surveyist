@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ import 'package:surveyist/utils/appFont.dart';
 import 'package:surveyist/utils/appImage.dart';
 import 'package:surveyist/utils/app_Language.dart';
 import 'package:surveyist/utils/footerForUsers.dart';
-
+  
 class UserDashBoardScreen extends StatefulWidget {
   final String? userId;
   UserDashBoardScreen({super.key, this.userId});
@@ -60,12 +61,36 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
       "time": "9.40"
     },
   ];
+  Timer? rooTimer;
   // void initState()
   // {
   //   super.initState();
   //    Provider.of<CommanProviderForUser>(context, listen: false)
   //       .getLoginDetail();
   // }
+
+@override
+ void initState()
+ {
+  super.initState();
+  autoLogOut();
+ }
+  void autoLogOut()
+  {
+     if(rooTimer!=null)
+     {
+      rooTimer=Timer.periodic(const Duration(seconds:5),(_){
+        
+        printdata();
+        
+        });
+    
+     }
+  }
+  void printdata()
+  {
+    print("hello current time");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -442,37 +467,8 @@ class _UserDashBoardScreenState extends State<UserDashBoardScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 6 / 100,
             ),
-            Center(
-              child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AdminDashboardPage(),
-                        ));
-                  },
-                  child: Text("go_admin_panel")),
-            ),
-            Center(
-              child: TextButton(
-                  onPressed: () {
-                    providerComman.getLogoutprovider();
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreenForAll(),
-                        ));
-                  },
-                  child: Text("LogOut")),
-            ),
-             Center(
-              child: TextButton(
-                  onPressed: () {
-                    providerComman.getUserInfo();
-                  
-                  },
-                  child: Text("getId")),
-            )
+          
+             
           ],
         ),
       ),
